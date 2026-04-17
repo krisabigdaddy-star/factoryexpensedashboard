@@ -73,6 +73,13 @@
                        class="pl-10 pr-4 py-2 w-full sm:w-56 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
             </div>
 
+            <!-- Search Line Description -->
+            <div class="relative w-full sm:w-auto">
+                <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
+                <input type="text" id="search-line-input" disabled placeholder="ค้นหา Line Description..." 
+                       class="pl-10 pr-4 py-2 w-full sm:w-56 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+            </div>
+
             <!-- Dept Select -->
             <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex items-center gap-2 w-full sm:w-auto">
                 <i data-lucide="building" class="text-slate-500 ml-1 w-4 h-4"></i>
@@ -237,7 +244,7 @@
                             <th class="px-6 py-4 font-bold bg-slate-100">แผนก</th>
                             <th class="px-6 py-4 font-bold bg-slate-100">รหัส GL</th>
                             <th class="px-6 py-4 font-bold bg-slate-100">ผู้รับเงิน / ผู้เบิก</th>
-                            <th class="px-6 py-4 font-bold bg-slate-100 w-1/3">รายละเอียด (Description)</th>
+                            <th class="px-6 py-4 font-bold bg-slate-100 w-1/3">รายละเอียด (Header / Line Description)</th>
                             <th class="px-6 py-4 font-bold text-right bg-slate-100">เดือน</th>
                             <th class="px-6 py-4 font-bold text-right bg-slate-100">ยอดเงิน (Actual)</th>
                         </tr>
@@ -292,6 +299,7 @@
             selectedDept: 'All',
             selectedMonth: 'All',
             searchTerm: '',
+            searchLineDesc: '',
             isUploaded: false
         };
 
@@ -335,7 +343,7 @@
             document.getElementById('empty-state').classList.toggle('hidden-view', STATE.isUploaded);
             document.getElementById('dashboard-view').classList.toggle('hidden-view', !STATE.isUploaded);
             
-            const inputs = ['search-input', 'dept-select', 'month-select'];
+            const inputs = ['search-input', 'search-line-input', 'dept-select', 'month-select'];
             inputs.forEach(id => document.getElementById(id).disabled = !STATE.isUploaded);
         };
 
@@ -396,7 +404,8 @@
                         actualTx.push({
                             id: `tx-${i}`, dept: deptCode, month, glCode,
                             party: String(row[5] || '').trim(),
-                            description: String(row[6] || '').trim() || String(row[7] || '').trim(),
+                            headerDesc: String(row[6] || '').trim(),
+                            lineDesc: String(row[7] || '').trim(),
                             amount
                         });
                     }
@@ -440,6 +449,7 @@
 
         // Event Listeners for Controls
         document.getElementById('search-input').addEventListener('input', (e) => { STATE.searchTerm = e.target.value; recalculateDashboard(); });
+        document.getElementById('search-line-input').addEventListener('input', (e) => { STATE.searchLineDesc = e.target.value; recalculateDashboard(); });
         document.getElementById('dept-select').addEventListener('change', (e) => { STATE.selectedDept = e.target.value; recalculateDashboard(); });
         document.getElementById('month-select').addEventListener('change', (e) => { STATE.selectedMonth = e.target.value; recalculateDashboard(); });
 
@@ -449,11 +459,13 @@
 
             // 1. Filter Transactions
             const term = STATE.searchTerm.toLowerCase().trim();
+            const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
             const filteredTx = STATE.transactions.filter(tx => {
                 const matchDept = STATE.selectedDept === 'All' || tx.dept === STATE.selectedDept;
                 const matchMonth = STATE.selectedMonth === 'All' || tx.month === STATE.selectedMonth;
-                const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.description || '').toLowerCase().includes(term);
-                return matchDept && matchMonth && matchSearch;
+                const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
+                const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
+                return matchDept && matchMonth && matchSearch && matchLine;
             }).sort((a,b) => b.amount - a.amount);
 
             // 2. Active Summary Data
@@ -464,14 +476,15 @@
             activeSummary = activeSummary.map(item => {
                 const matchedTx = item.transactions.filter(tx => {
                     const matchMonth = STATE.selectedMonth === 'All' || tx.month === STATE.selectedMonth;
-                    const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.description || '').toLowerCase().includes(term);
-                    return matchMonth && matchSearch;
+                    const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
+                    const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
+                    return matchMonth && matchSearch && matchLine;
                 });
                 return { ...item, activeActual: matchedTx.reduce((sum, tx) => sum + tx.amount, 0) };
-            }).filter(item => item.activeActual !== 0 || (item.budget !== 0 && term === ''));
+            }).filter(item => item.activeActual !== 0 || (item.budget !== 0 && term === '' && lineTerm === ''));
 
             // 3. Render Sections
-            renderKPIs(activeSummary, term !== '');
+            renderKPIs(activeSummary, term !== '' || lineTerm !== '');
             renderTables(filteredTx, activeSummary);
             renderCharts(filteredTx, activeSummary);
         }
@@ -510,16 +523,22 @@
             if (transactions.length === 0) {
                 txBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-400 bg-white">ไม่พบรายการที่ตรงกับเงื่อนไข</td></tr>`;
             } else {
-                txBody.innerHTML = transactions.map(tx => `
+                txBody.innerHTML = transactions.map(tx => {
+                    const hDesc = tx.headerDesc ? `<span class="font-semibold text-slate-700 block mb-1">${tx.headerDesc}</span>` : '';
+                    const lDesc = tx.lineDesc ? `<span class="text-slate-500">${tx.lineDesc}</span>` : '';
+                    return `
                     <tr class="border-b border-slate-50 hover:bg-indigo-50/40 transition-colors">
                         <td class="px-6 py-3 font-medium text-slate-500 whitespace-nowrap">${tx.dept.split('-')[1] || tx.dept}</td>
                         <td class="px-6 py-3 font-mono text-xs text-slate-400 whitespace-nowrap">${tx.glCode}</td>
                         <td class="px-6 py-3 font-medium text-indigo-700 whitespace-nowrap">${tx.party || '-'}</td>
-                        <td class="px-6 py-3 text-slate-600 text-xs leading-relaxed">${tx.description || '-'}</td>
+                        <td class="px-6 py-3 text-slate-600 text-xs leading-relaxed">
+                            ${hDesc}
+                            ${lDesc || (hDesc ? '' : '-')}
+                        </td>
                         <td class="px-6 py-3 text-right text-slate-500 whitespace-nowrap">${tx.month}</td>
                         <td class="px-6 py-3 text-right font-bold text-emerald-600 whitespace-nowrap">${formatNum(tx.amount)}</td>
                     </tr>
-                `).join('');
+                `}).join('');
             }
 
             // GL Summary Table (Grouped by Category)
