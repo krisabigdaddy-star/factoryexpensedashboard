@@ -195,33 +195,35 @@
             </div>
         </div>
 
-        <!-- Dept Chart (Actual vs Budget) - ขยายเต็มหน้าจอ 100% -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col mb-8">
-            <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center gap-2">
-                <i data-lucide="bar-chart" class="text-indigo-500"></i> เปรียบเทียบ Actual vs Budget แยกตามแผนก
-            </h3>
-            <div class="flex-1 w-full h-[400px] relative">
-                <canvas id="deptChart"></canvas>
+        <!-- Charts Row 2: Dept Chart & Monthly Trend คู่กัน แบ่งครึ่งหน้า -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Dept Chart (Actual vs Budget) -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center gap-2">
+                    <i data-lucide="bar-chart" class="text-indigo-500"></i> เปรียบเทียบ Actual vs Budget แยกตามแผนก
+                </h3>
+                <div class="w-full relative" style="height: 800px; min-height: 800px; display: block;">
+                    <canvas id="deptChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Monthly Trend Chart -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="trending-up" class="text-emerald-500"></i> แนวโน้มการจ่ายรายเดือน (Trend)</span>
+                    <span id="trend-badge" class="hidden-view text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded font-normal">เฉพาะเดือนที่เลือก</span>
+                </h3>
+                <div class="w-full relative" style="height: 800px; min-height: 800px; display: block;">
+                    <canvas id="trendChart"></canvas>
+                </div>
             </div>
         </div>
 
-        <!-- Monthly Trend Chart - ขยายเต็มหน้าจอ 100% -->
-        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col mb-8">
-            <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center justify-between">
-                <span class="flex items-center gap-2"><i data-lucide="trending-up" class="text-emerald-500"></i> แนวโน้มการจ่ายรายเดือน (Trend)</span>
-                <span id="trend-badge" class="hidden-view text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded font-normal">เฉพาะเดือนที่เลือก</span>
-            </h3>
-            <div class="flex-1 w-full h-[350px] relative">
-                <canvas id="trendChart"></canvas>
-            </div>
-        </div>
-
-        <!-- Category Actual vs Budget (Horizontal Bar) - ขยายความสูงเป็น 1200px เพื่อให้อ่านง่ายสุดๆ -->
+        <!-- Category Actual vs Budget (Horizontal Bar) -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col mb-8">
             <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center gap-2">
                 <i data-lucide="bar-chart-2" class="text-blue-500"></i> เปรียบเทียบ Actual vs Budget แยกตามหมวดหมู่ (Top 15 Categories)
             </h3>
-            <!-- ปรับขนาดความสูงตรงนี้ ให้มีพื้นที่สำหรับ 15 หมวดหมู่ ไม่อึดอัด โดยใช้ inline style บังคับความสูงเด็ดขาด -->
             <div class="w-full relative" style="height: 800px; min-height: 800px; display: block;">
                 <canvas id="categoryBarChart"></canvas>
             </div>
