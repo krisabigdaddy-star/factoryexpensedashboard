@@ -27,25 +27,11 @@
             background-color: #f8fafc;
             color: #1e293b;
         }
-        /* Custom scrollbar for tables */
-        .custom-scrollbar::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: #f1f5f9; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb {
-            background: #cbd5e1; 
-            border-radius: 4px;
-        }
-        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-            background: #94a3b8; 
-        }
-        .hidden-view {
-            display: none !important;
-        }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f5f9; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
+        .hidden-view { display: none !important; }
     </style>
 </head>
 <body class="min-h-screen p-4 md:p-6">
@@ -55,17 +41,18 @@
         <div class="flex-1">
             <h1 class="text-2xl font-bold text-slate-900 flex items-center gap-2">
                 <i data-lucide="activity" class="text-blue-600"></i>
-                YTD Expense Dashboard
+                Executive Expense Dashboard
             </h1>
-            <p class="text-slate-500 text-sm mt-1">วิเคราะห์ข้อมูลเปรียบเทียบจากระบบบัญชี (Actual vs Master Budget)</p>
+            <p class="text-slate-500 text-sm mt-1">วิเคราะห์ข้อมูลเปรียบเทียบจากระบบบัญชี (Actual vs Master Budget) แบบรายปี & YoY</p>
             
             <div class="flex items-center gap-2 mt-3" id="status-container">
                 <i data-lucide="alert-circle" id="status-icon" class="text-amber-500 w-4 h-4"></i>
-                <span id="status-text" class="text-xs font-medium text-amber-600">กรุณาอัปโหลดไฟล์ Excel (.xlsx) ที่มี Sheet "2026 YTD" และ "ACC Code"</span>
+                <span id="status-text" class="text-xs font-medium text-amber-600">กรุณาอัปโหลดไฟล์ Excel (.xlsx) ที่มีข้อมูล Actual และ Budget</span>
             </div>
         </div>
         
         <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full xl:w-auto">
+            
             <!-- Search -->
             <div class="relative w-full sm:w-auto">
                 <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
@@ -77,14 +64,24 @@
             <div class="relative w-full sm:w-auto">
                 <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
                 <input type="text" id="search-line-input" disabled placeholder="ค้นหา Line Description..." 
-                       class="pl-10 pr-4 py-2 w-full sm:w-56 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                       class="pl-10 pr-4 py-2 w-full sm:w-48 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+            </div>
+
+            <!-- Year Select -->
+            <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex items-center gap-2 w-full sm:w-auto">
+                <i data-lucide="calendar-clock" class="text-slate-500 ml-1 w-4 h-4"></i>
+                <select id="year-select" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-1.5 cursor-pointer disabled:opacity-50 w-full outline-none">
+                    <option value="2026">ปี 2026</option>
+                    <option value="2025">ปี 2025</option>
+                    <option value="All">รวมทุกปี</option>
+                </select>
             </div>
 
             <!-- Dept Select -->
             <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex items-center gap-2 w-full sm:w-auto">
                 <i data-lucide="building" class="text-slate-500 ml-1 w-4 h-4"></i>
                 <select id="dept-select" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-1.5 cursor-pointer disabled:opacity-50 w-full outline-none">
-                    <option value="All">ทุกแผนก (All Dept)</option>
+                    <option value="All">ทุกแผนก</option>
                     <option value="V330-VCP">V330-VCP</option>
                     <option value="V331-VCP/P">V331-VCP/P</option>
                     <option value="V332-VCP/Q">V332-VCP/Q</option>
@@ -97,7 +94,7 @@
             <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex items-center gap-2 w-full sm:w-auto">
                 <i data-lucide="calendar" class="text-slate-500 ml-1 w-4 h-4"></i>
                 <select id="month-select" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-1.5 cursor-pointer disabled:opacity-50 w-full outline-none">
-                    <option value="All">รวมทั้งปี (YTD)</option>
+                    <option value="All">รวมทั้งปี</option>
                     <!-- Months dynamically populated -->
                 </select>
             </div>
@@ -114,10 +111,10 @@
     <!-- Empty State -->
     <div id="empty-state" class="flex flex-col items-center justify-center h-64 bg-slate-100 rounded-xl border-2 border-dashed border-slate-300">
         <i data-lucide="upload" class="text-slate-400 mb-4 w-12 h-12"></i>
-        <p class="text-slate-600 font-medium">กรุณาอัปโหลดไฟล์ Excel ที่มี 2 Sheet นี้:</p>
+        <p class="text-slate-600 font-medium">กรุณาอัปโหลดไฟล์ Excel ที่มี Sheet ดังต่อไปนี้:</p>
         <ul class="text-slate-500 text-sm mt-2 list-disc ml-4 text-left">
-            <li><span class="font-semibold text-slate-700">"2026 YTD"</span> - ข้อมูลรายการเบิกจ่ายรายเดือน</li>
-            <li><span class="font-semibold text-slate-700">"ACC Code"</span> - ข้อมูลเป้าหมายงบประมาณ (Budget)</li>
+            <li><span class="font-semibold text-slate-700">"2026 YTD"</span> และ <span class="font-semibold text-slate-700">"2025"</span> - ข้อมูลรายการเบิกจ่ายจริง</li>
+            <li><span class="font-semibold text-slate-700">"ACC Code Budget 2026"</span> และ <span class="font-semibold text-slate-700">"ACC Code Budget 2025"</span> - ข้อมูลเป้าหมายงบประมาณ</li>
         </ul>
     </div>
 
@@ -130,7 +127,7 @@
                 <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -z-10"></div>
                 <div class="flex justify-between items-start z-10">
                     <div>
-                        <p class="text-sm font-medium text-slate-500 flex items-center gap-1">ค่าใช้จ่ายจริง <span id="kpi-filter-badge" class="hidden-view text-xs bg-amber-100 text-amber-700 px-1 rounded ml-1">Filtered</span></p>
+                        <p class="text-sm font-medium text-slate-500 flex items-center gap-1">ค่าใช้จ่ายจริง (<span id="kpi-year-badge">2026</span>) <span id="kpi-filter-badge" class="hidden-view text-xs bg-amber-100 text-amber-700 px-1 rounded ml-1">Filtered</span></p>
                         <h3 id="kpi-actual" class="text-3xl font-bold text-blue-600 mt-2">0.00</h3>
                     </div>
                     <div class="bg-blue-100 p-3 rounded-lg text-blue-600 shadow-inner"><i data-lucide="dollar-sign"></i></div>
@@ -174,6 +171,29 @@
             </div>
         </div>
 
+        <!-- NEW: YoY Overview Charts (Budget & Trend) -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Annual Budget vs Actual -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="bar-chart" class="text-indigo-600"></i> เปรียบเทียบภาพรวมรายปี (Annual Budget vs Actual)</span>
+                </h3>
+                <div class="w-full relative" style="height: 400px; min-height: 400px; display: block;">
+                    <canvas id="yoyBudgetActualChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Monthly YoY Trend -->
+            <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
+                <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center justify-between">
+                    <span class="flex items-center gap-2"><i data-lucide="trending-up" class="text-emerald-600"></i> เปรียบเทียบแนวโน้มรายเดือน (YoY Monthly Trend)</span>
+                </h3>
+                <div class="w-full relative" style="height: 400px; min-height: 400px; display: block;">
+                    <canvas id="yoyTrendChart"></canvas>
+                </div>
+            </div>
+        </div>
+
         <!-- Charts Row 1: Top Spenders & Top Category -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
@@ -207,10 +227,10 @@
                 </div>
             </div>
 
-            <!-- Monthly Trend Chart -->
+            <!-- Monthly Trend Chart (Current Selected Year) -->
             <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col">
                 <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center justify-between">
-                    <span class="flex items-center gap-2"><i data-lucide="trending-up" class="text-emerald-500"></i> แนวโน้มการจ่ายรายเดือน (Trend)</span>
+                    <span class="flex items-center gap-2"><i data-lucide="trending-up" class="text-emerald-500"></i> สรุปการจ่ายรายเดือน (Trend ประจำปี)</span>
                     <span id="trend-badge" class="hidden-view text-xs bg-slate-100 text-slate-500 px-2 py-1 rounded font-normal">เฉพาะเดือนที่เลือก</span>
                 </h3>
                 <div class="w-full relative" style="height: 800px; min-height: 800px; display: block;">
@@ -243,6 +263,7 @@
                 <table class="w-full text-left text-sm text-slate-600 relative">
                     <thead class="bg-slate-100 text-slate-500 uppercase text-xs border-b border-slate-200 sticky top-0 shadow-sm z-10">
                         <tr>
+                            <th class="px-6 py-4 font-bold bg-slate-100">ปี</th>
                             <th class="px-6 py-4 font-bold bg-slate-100">แผนก</th>
                             <th class="px-6 py-4 font-bold bg-slate-100">รหัส GL</th>
                             <th class="px-6 py-4 font-bold bg-slate-100">ผู้รับเงิน / ผู้เบิก</th>
@@ -258,7 +279,7 @@
             </div>
         </div>
 
-        <!-- GL Code Summary Table -->
+        <!-- GL Code Summary Table (Grouped Style) -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
             <div class="p-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
                 <h3 class="text-lg font-bold text-slate-800">ตารางสรุปงบประมาณรายหมวด (GL Summary Grouped)</h3>
@@ -266,7 +287,7 @@
                     แสดง 0 หมวดหมู่
                 </span>
             </div>
-            <div class="overflow-x-auto max-h-[400px] overflow-y-auto custom-scrollbar">
+            <div class="overflow-x-auto max-h-[600px] overflow-y-auto custom-scrollbar">
                 <table class="w-full text-left text-sm text-slate-600 relative">
                     <thead class="bg-slate-100 text-slate-500 uppercase text-xs border-b border-slate-200 sticky top-0 shadow-sm z-10">
                         <tr>
@@ -295,18 +316,21 @@
 
         // Global State
         const STATE = {
-            combinedData: [],
             transactions: [],
             availableMonths: [],
+            selectedYear: '2026', // Default to 2026
             selectedDept: 'All',
             selectedMonth: 'All',
             searchTerm: '',
             searchLineDesc: '',
-            isUploaded: false
+            isUploaded: false,
+            masterMap: { '2025': {}, '2026': {} } // เก็บเป้า Budget แยกรายปี
         };
 
         // Chart Instances
         const CHART_INSTANCES = {
+            yoyBudgetActual: null,
+            yoyTrend: null,
             topSpenders: null,
             categoryPie: null,
             dept: null,
@@ -345,8 +369,69 @@
             document.getElementById('empty-state').classList.toggle('hidden-view', STATE.isUploaded);
             document.getElementById('dashboard-view').classList.toggle('hidden-view', !STATE.isUploaded);
             
-            const inputs = ['search-input', 'search-line-input', 'dept-select', 'month-select'];
+            const inputs = ['year-select', 'search-input', 'search-line-input', 'dept-select', 'month-select'];
             inputs.forEach(id => document.getElementById(id).disabled = !STATE.isUploaded);
+        };
+
+        // ฟังก์ชันอ่านไฟล์ Budget แยกตาม Sheet
+        const parseBudgetSheet = (workbook, sheetName) => {
+            if (!workbook.SheetNames.includes(sheetName)) return {};
+            const accLines = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: "" });
+            const map = {}; 
+            for (let i = 1; i < accLines.length; i++) {
+                const row = accLines[i];
+                if (!row || row.length < 4) continue;
+                const glCode = extractGLCode(row[0], row[1]);
+                if (!glCode) continue;
+                let desc = String(row[2] || '').trim().split(':')[0].trim(); 
+                map[glCode] = {
+                    desc,
+                    budgets: {
+                        'V330-VCP': parseNumber(row[4]),
+                        'V331-VCP/P': parseNumber(row[5]),
+                        'V332-VCP/Q': parseNumber(row[6]),
+                        'V334-VCP/W': parseNumber(row[7]),
+                        'V335-VCP/E': parseNumber(row[8])
+                    }
+                };
+            }
+            return map;
+        };
+
+        // Parse individual sheet function
+        const processTxSheet = (workbook, sheetName, year) => {
+            if(!workbook.SheetNames.includes(sheetName)) return [];
+            const lines = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: "" });
+            const txs = [];
+            for (let i = 0; i < lines.length; i++) {
+                const row = lines[i];
+                if (!row || row.length < 9) continue;
+                
+                // ตรวจสอบคอลัมน์แรกว่าเป็นรหัสแผนกหรือไม่
+                const deptCode = String(row[0] || '').trim();
+                if (!deptCode.startsWith('V33')) continue;
+
+                // ดึงเฉพาะชื่อเดือน 3 ตัวอักษร เช่น 'JAN'
+                const monthRaw = String(row[1] || '').trim().toUpperCase();
+                const monthStr = monthRaw.split('-')[0];
+
+                const glCode = extractGLCode(row[2], row[3]);
+                if (!glCode) continue;
+
+                const amount = parseNumber(row[8]); 
+                txs.push({
+                    id: `tx-${year}-${i}`, 
+                    year: year,
+                    dept: deptCode, 
+                    month: monthStr, 
+                    glCode: glCode,
+                    party: String(row[5] || '').trim(),
+                    headerDesc: String(row[6] || '').trim(),
+                    lineDesc: String(row[7] || '').trim(),
+                    amount: amount
+                });
+            }
+            return txs;
         };
 
         // File Upload Handler
@@ -354,7 +439,7 @@
             const file = e.target.files[0];
             if (!file) return;
 
-            setStatus(false, 'กำลังอ่านและจับคู่ข้อมูล...');
+            setStatus(false, 'กำลังอ่านและประมวลผลข้อมูลหลายปี...');
 
             const reader = new FileReader();
             reader.onload = (e) => {
@@ -362,82 +447,43 @@
                     const data = new Uint8Array(e.target.result);
                     const workbook = XLSX.read(data, { type: 'array' });
                     
-                    if (!workbook.SheetNames.includes('2026 YTD') || !workbook.SheetNames.includes('ACC Code')) {
-                        setStatus(false, 'ไม่พบ Sheet "2026 YTD" หรือ "ACC Code" ในไฟล์นี้');
+                    // 1. อ่าน Master Budget (2025 และ 2026)
+                    const masterMap2025 = workbook.SheetNames.includes('ACC Code Budget 2025') ? parseBudgetSheet(workbook, 'ACC Code Budget 2025') : {};
+                    // หา Budget 2026 อาจจะชื่อ ACC Code Budget 2026 หรือ ACC Code ธรรมดา
+                    let masterMap2026 = {};
+                    if (workbook.SheetNames.includes('ACC Code Budget 2026')) {
+                        masterMap2026 = parseBudgetSheet(workbook, 'ACC Code Budget 2026');
+                    } else if (workbook.SheetNames.includes('ACC Code')) {
+                        masterMap2026 = parseBudgetSheet(workbook, 'ACC Code');
+                    }
+                    
+                    STATE.masterMap = { '2025': masterMap2025, '2026': masterMap2026 };
+
+                    // 2. อ่านข้อมูล Transaction (2025 และ 2026 YTD)
+                    const tx2026 = processTxSheet(workbook, '2026 YTD', '2026');
+                    const tx2025 = processTxSheet(workbook, '2025', '2025');
+                    const allTx = [...tx2026, ...tx2025];
+
+                    if (allTx.length === 0) {
+                        setStatus(false, 'ไม่พบข้อมูลรายการใน Sheet 2026 YTD หรือ 2025');
                         return;
                     }
 
-                    // 1. Parse ACC Code
-                    const accLines = XLSX.utils.sheet_to_json(workbook.Sheets['ACC Code'], { header: 1, defval: "" });
-                    const masterMap = {}; 
-                    for (let i = 1; i < accLines.length; i++) {
-                        const row = accLines[i];
-                        if (!row || row.length < 4) continue;
-                        const glCode = extractGLCode(row[0], row[1]);
-                        if (!glCode) continue;
-                        let desc = String(row[2] || '').trim().split(':')[0].trim(); 
-                        masterMap[glCode] = {
-                            desc,
-                            budgets: {
-                                'V330-VCP': parseNumber(row[4]),
-                                'V331-VCP/P': parseNumber(row[5]),
-                                'V332-VCP/Q': parseNumber(row[6]),
-                                'V334-VCP/W': parseNumber(row[7]),
-                                'V335-VCP/E': parseNumber(row[8])
-                            }
-                        };
-                    }
-
-                    // 2. Parse 2026 YTD
-                    const ytdLines = XLSX.utils.sheet_to_json(workbook.Sheets['2026 YTD'], { header: 1, defval: "" });
-                    const actualTx = [];
-                    const monthSet = new Set();
-                    for (let i = 2; i < ytdLines.length; i++) {
-                        const row = ytdLines[i];
-                        if (!row || row.length < 9) continue;
-                        const deptCode = String(row[0] || '').trim();
-                        if (!deptCode) continue;
-                        const month = String(row[1] || '').trim().toUpperCase();
-                        if (month) monthSet.add(month);
-                        const glCode = extractGLCode(row[2], row[3]);
-                        if (!glCode) continue;
-                        const amount = parseNumber(row[8]); 
-                        
-                        actualTx.push({
-                            id: `tx-${i}`, dept: deptCode, month, glCode,
-                            party: String(row[5] || '').trim(),
-                            headerDesc: String(row[6] || '').trim(),
-                            lineDesc: String(row[7] || '').trim(),
-                            amount
-                        });
-                    }
-
-                    // 3. Combine Data
-                    const summaryData = [];
-                    Object.keys(masterMap).forEach(glCode => {
-                        const info = masterMap[glCode];
-                        Object.keys(info.budgets).forEach(dept => {
-                            const budget = info.budgets[dept];
-                            const txList = actualTx.filter(tx => tx.glCode === glCode && tx.dept === dept);
-                            const actualTotal = txList.reduce((sum, tx) => sum + tx.amount, 0);
-                            if (actualTotal !== 0 || budget !== 0) {
-                                summaryData.push({ id: `${glCode}-${dept}`, dept, glCode, category: info.desc, budget, actualTotal, transactions: txList });
-                            }
-                        });
-                    });
+                    const monthSet = new Set(allTx.map(t => t.month));
 
                     // Update Global State
                     STATE.availableMonths = Array.from(monthSet).sort();
-                    STATE.transactions = actualTx;
-                    STATE.combinedData = summaryData;
+                    STATE.transactions = allTx;
                     STATE.isUploaded = true;
 
                     // Update UI Controls
                     const monthSelect = document.getElementById('month-select');
-                    monthSelect.innerHTML = '<option value="All">รวมทั้งปี (YTD)</option>' + 
-                                          STATE.availableMonths.map(m => `<option value="${m}">${m}</option>`).join('');
+                    monthSelect.innerHTML = '<option value="All">รวมทั้งปี</option>' + 
+                                          ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC']
+                                          .filter(m => monthSet.has(m))
+                                          .map(m => `<option value="${m}">${m}</option>`).join('');
 
-                    setStatus(true, `อัปโหลดสำเร็จ! ประมวลผล ${actualTx.length} รายการ`);
+                    setStatus(true, `อัปโหลดสำเร็จ! พบข้อมูล 2025 และ 2026 รวม ${allTx.length} รายการ`);
                     toggleView();
                     recalculateDashboard();
 
@@ -450,6 +496,7 @@
         });
 
         // Event Listeners for Controls
+        document.getElementById('year-select').addEventListener('change', (e) => { STATE.selectedYear = e.target.value; recalculateDashboard(); });
         document.getElementById('search-input').addEventListener('input', (e) => { STATE.searchTerm = e.target.value; recalculateDashboard(); });
         document.getElementById('search-line-input').addEventListener('input', (e) => { STATE.searchLineDesc = e.target.value; recalculateDashboard(); });
         document.getElementById('dept-select').addEventListener('change', (e) => { STATE.selectedDept = e.target.value; recalculateDashboard(); });
@@ -459,19 +506,66 @@
         function recalculateDashboard() {
             if (!STATE.isUploaded) return;
 
-            // 1. Filter Transactions
             const term = STATE.searchTerm.toLowerCase().trim();
             const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
-            const filteredTx = STATE.transactions.filter(tx => {
+
+            // 1. Transactions for Current Year View
+            const currentYearTx = STATE.transactions.filter(tx => {
+                const matchYear = STATE.selectedYear === 'All' || tx.year === STATE.selectedYear;
+                return matchYear;
+            });
+
+            // Transactions strictly filtered by all criteria (for tables and charts)
+            const filteredTx = currentYearTx.filter(tx => {
                 const matchDept = STATE.selectedDept === 'All' || tx.dept === STATE.selectedDept;
                 const matchMonth = STATE.selectedMonth === 'All' || tx.month === STATE.selectedMonth;
                 const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
                 const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
                 return matchDept && matchMonth && matchSearch && matchLine;
-            }).sort((a,b) => b.amount - a.amount);
+            });
 
-            // 2. Active Summary Data
-            let activeSummary = STATE.combinedData;
+            // 2. Build Summary Data based on selected year dynamically
+            const sumMap = {};
+            
+            // Helper เพื่อดึง Budget มาใส่โครงสร้าง
+            const addBudgetToSum = (bMap, yearLabel) => {
+                if (!bMap) return;
+                Object.keys(bMap).forEach(glCode => {
+                    const info = bMap[glCode];
+                    Object.keys(info.budgets).forEach(dept => {
+                        const key = `${glCode}_${dept}`;
+                        if (!sumMap[key]) {
+                            sumMap[key] = { id: key, dept, glCode, category: info.desc, budget: 0, actualTotal: 0, transactions: [] };
+                        }
+                        // ถ้าเลือกรวมทุกปี งบประมาณก็จะบวกกันทั้ง 2 ปี
+                        sumMap[key].budget += info.budgets[dept];
+                    });
+                });
+            };
+
+            // กำหนดว่าต้องดึง Budget ของปีไหนมาใช้บ้าง
+            if (STATE.selectedYear === '2025' || STATE.selectedYear === 'All') addBudgetToSum(STATE.masterMap['2025'], '2025');
+            if (STATE.selectedYear === '2026' || STATE.selectedYear === 'All') addBudgetToSum(STATE.masterMap['2026'], '2026');
+
+            // นำ Actual Transaction มาใส่ประกอบ
+            currentYearTx.forEach(tx => {
+                const key = `${tx.glCode}_${tx.dept}`;
+                if (!sumMap[key]) {
+                    // หากมีการเบิกจ่ายรหัสแปลกๆ ที่ไม่มีใน Budget จะดึงชื่อมาแสดงเท่าที่หาได้
+                    let desc = tx.headerDesc;
+                    if (STATE.masterMap['2026'] && STATE.masterMap['2026'][tx.glCode]) desc = STATE.masterMap['2026'][tx.glCode].desc;
+                    else if (STATE.masterMap['2025'] && STATE.masterMap['2025'][tx.glCode]) desc = STATE.masterMap['2025'][tx.glCode].desc;
+                    
+                    sumMap[key] = { id: key, dept: tx.dept, glCode: tx.glCode, category: desc || 'ไม่มีรหัสใน Master', budget: 0, actualTotal: 0, transactions: [] };
+                }
+                sumMap[key].actualTotal += tx.amount;
+                sumMap[key].transactions.push(tx);
+            });
+
+            const summaryData = Object.values(sumMap);
+
+            // 3. Active Summary Data (apply Dept filter)
+            let activeSummary = summaryData;
             if (STATE.selectedDept !== 'All') {
                 activeSummary = activeSummary.filter(item => item.dept === STATE.selectedDept);
             }
@@ -485,10 +579,16 @@
                 return { ...item, activeActual: matchedTx.reduce((sum, tx) => sum + tx.amount, 0) };
             }).filter(item => item.activeActual !== 0 || (item.budget !== 0 && term === '' && lineTerm === ''));
 
-            // 3. Render Sections
+            // 4. Update Header KPI Badge
+            document.getElementById('kpi-year-badge').innerText = STATE.selectedYear === 'All' ? 'รวมทุกปี' : `ปี ${STATE.selectedYear}`;
+
+            // 5. Render Sections
             renderKPIs(activeSummary, term !== '' || lineTerm !== '');
             renderTables(filteredTx, activeSummary);
             renderCharts(filteredTx, activeSummary);
+            
+            // 6. Render YoY Overview Charts (Requires special filtering regardless of selectedYear)
+            renderYoYOverviewCharts();
         }
 
         function renderKPIs(activeData, isFiltered) {
@@ -523,13 +623,14 @@
             const txBody = document.getElementById('tx-table-body');
             document.getElementById('tx-count').innerText = `พบ ${transactions.length} รายการ`;
             if (transactions.length === 0) {
-                txBody.innerHTML = `<tr><td colspan="6" class="px-6 py-12 text-center text-slate-400 bg-white">ไม่พบรายการที่ตรงกับเงื่อนไข</td></tr>`;
+                txBody.innerHTML = `<tr><td colspan="7" class="px-6 py-12 text-center text-slate-400 bg-white">ไม่พบรายการที่ตรงกับเงื่อนไข</td></tr>`;
             } else {
                 txBody.innerHTML = transactions.map(tx => {
                     const hDesc = tx.headerDesc ? `<span class="font-semibold text-slate-700 block mb-1">${tx.headerDesc}</span>` : '';
                     const lDesc = tx.lineDesc ? `<span class="text-slate-500">${tx.lineDesc}</span>` : '';
                     return `
                     <tr class="border-b border-slate-50 hover:bg-indigo-50/40 transition-colors">
+                        <td class="px-6 py-3 font-medium text-slate-800 whitespace-nowrap">${tx.year}</td>
                         <td class="px-6 py-3 font-medium text-slate-500 whitespace-nowrap">${tx.dept.split('-')[1] || tx.dept}</td>
                         <td class="px-6 py-3 font-mono text-xs text-slate-400 whitespace-nowrap">${tx.glCode}</td>
                         <td class="px-6 py-3 font-medium text-indigo-700 whitespace-nowrap">${tx.party || '-'}</td>
@@ -546,7 +647,6 @@
             // GL Summary Table (Grouped by Category)
             const glBody = document.getElementById('gl-table-body');
             
-            // 1. นำข้อมูลมาจัดกลุ่ม (Group) ตามหมวดหมู่และรหัส GL Code
             const catMap = {};
             activeSummary.forEach(row => {
                 const key = `${row.glCode}_${row.category}`;
@@ -571,7 +671,6 @@
                     const catUsage = cat.budget > 0 ? (cat.actual / cat.budget) * 100 : 0;
                     const catColor = catUsage > 100 ? 'text-red-600' : catUsage > 80 ? 'text-amber-600' : 'text-emerald-600';
 
-                    // สร้างบรรทัดหลัก (หมวดหมู่ค่าใช้จ่าย)
                     html += `
                     <tr class="bg-indigo-50/50 border-y border-slate-200">
                         <td class="px-6 py-3">
@@ -585,13 +684,11 @@
                         <td class="px-6 py-3 text-center font-bold ${catColor}">${catUsage > 0 ? catUsage.toFixed(0) + '%' : '-'}</td>
                     </tr>`;
 
-                    // สร้างบรรทัดย่อย (แยกตามแผนก ภายใต้หมวดหมู่นั้นๆ)
                     cat.depts.sort((a,b) => b.activeActual - a.activeActual).forEach(deptRow => {
                         let usageHtml = '';
                         const shortDept = deptRow.dept.split('-')[1] || deptRow.dept;
 
                         if (deptRow.budget > 0) {
-                            // กรณีมีงบประมาณปกติ
                             const usage = (deptRow.activeActual / deptRow.budget) * 100;
                             const colorClass = usage > 100 ? 'text-red-500' : usage > 80 ? 'text-amber-500' : 'text-emerald-500';
                             const bgClass = usage > 100 ? 'bg-red-500' : 'bg-emerald-500';
@@ -602,23 +699,19 @@
                                 </div>
                             `;
                         } else if (deptRow.activeActual > 0 && deptRow.budget === 0) {
-                            // กรณีจ่ายจริง แต่แผนกนี้ไม่ได้รับงบ (Budget = 0)
                             if (cat.budget > 0) {
-                                // คำนวณ % การดึงงบรวมของหมวดไปใช้
                                 const sharedUsage = (deptRow.activeActual / cat.budget) * 100;
                                 usageHtml = `
                                     <span class="text-xs font-bold text-red-500">-${sharedUsage.toFixed(1)}%</span>
                                     <span class="text-[9px] text-slate-400 mt-1 leading-none block font-medium">เทียบงบรวมหมวด</span>
                                 `;
                             } else {
-                                // กรณีที่หมวดหลักก็ไม่ได้ตั้งงบไว้เหมือนกัน
                                 usageHtml = `
                                     <span class="text-xs font-bold text-red-500">Over Budget</span>
                                     <span class="text-[9px] text-slate-400 mt-1 leading-none block">ไม่มีงบตั้งต้น</span>
                                 `;
                             }
                         } else {
-                            // กรณีเป็น 0 ทั้ง Actual และ Budget
                             usageHtml = `<span class="text-xs font-bold text-slate-300">-</span>`;
                         }
 
@@ -638,8 +731,6 @@
                     });
                 });
                 glBody.innerHTML = html;
-                
-                // สั่งให้ระบบเรนเดอร์ไอคอนลูกศร ที่เพิ่งถูกสร้างขึ้นมาใหม่
                 lucide.createIcons();
             }
         }
@@ -654,6 +745,137 @@
                 CHART_INSTANCES[name].destroy();
                 CHART_INSTANCES[name] = null;
             }
+        }
+
+        function renderYoYOverviewCharts() {
+            destroyChart('yoyTrend');
+            destroyChart('yoyBudgetActual');
+
+            const term = STATE.searchTerm.toLowerCase().trim();
+            const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
+
+            // Filter transactions for YoY (ignore selectedYear and selectedMonth, keep Dept and search terms)
+            const yoyTx = STATE.transactions.filter(tx => {
+                const matchDept = STATE.selectedDept === 'All' || tx.dept === STATE.selectedDept;
+                const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
+                const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
+                return matchDept && matchSearch && matchLine;
+            });
+
+            // 1. Annual Budget vs Actual Chart (เปรียบเทียบงบ vs จ่ายจริงของ 2025 และ 2026)
+            let budget25 = 0;
+            let budget26 = 0;
+
+            const calcBudget = (yearMap) => {
+                let total = 0;
+                if (!yearMap) return 0;
+                Object.values(yearMap).forEach(info => {
+                    Object.keys(info.budgets).forEach(dept => {
+                        if (STATE.selectedDept === 'All' || dept === STATE.selectedDept) {
+                            total += info.budgets[dept];
+                        }
+                    });
+                });
+                return total;
+            };
+
+            budget25 = calcBudget(STATE.masterMap['2025']);
+            budget26 = calcBudget(STATE.masterMap['2026']);
+
+            let actual25 = yoyTx.filter(tx => tx.year === '2025').reduce((sum, tx) => sum + tx.amount, 0);
+            let actual26 = yoyTx.filter(tx => tx.year === '2026').reduce((sum, tx) => sum + tx.amount, 0);
+
+            const ctxBudget = document.getElementById('yoyBudgetActualChart').getContext('2d');
+            CHART_INSTANCES.yoyBudgetActual = new Chart(ctxBudget, {
+                type: 'bar',
+                data: {
+                    labels: ['ปี 2025', 'ปี 2026'],
+                    datasets: [
+                        { label: 'Budget (งบประมาณ)', data: [budget25, budget26], backgroundColor: '#cbd5e1', borderRadius: 4, barPercentage: 0.7, categoryPercentage: 0.6 },
+                        { label: 'Actual (ใช้จริง)', data: [actual25, actual26], backgroundColor: '#6366f1', borderRadius: 4, barPercentage: 0.7, categoryPercentage: 0.6 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    layout: { padding: { top: 25 } },
+                    plugins: { 
+                        legend: { position: 'top', align: 'end', labels: { font: { size: 13, weight: 'bold' } } },
+                        datalabels: { 
+                            display: true,
+                            anchor: 'end',
+                            align: 'top',
+                            color: '#475569',
+                            font: { weight: 'bold', size: 12 },
+                            formatter: (value, ctx) => {
+                                if (value === 0) return '';
+                                // แสดงเปอร์เซ็นต์เฉพาะแท่ง Actual เทียบ Budget
+                                if (ctx.datasetIndex === 1) {
+                                    const b = ctx.chart.data.datasets[0].data[ctx.dataIndex];
+                                    const p = b > 0 ? ((value / b) * 100).toFixed(1) : 0;
+                                    return p > 0 ? p + '%' : '';
+                                }
+                                return '';
+                            }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.dataset.label}: ${formatNum(context.raw)} บาท`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { grid: { borderDash: [3,3], color: '#f1f5f9' }, ticks: { callback: v => formatCompact(v), font: { size: 13 } } },
+                        x: { grid: { display: false }, ticks: { font: { size: 14, weight: 'bold' } } }
+                    }
+                }
+            });
+
+            // 2. Monthly YoY Trend Chart
+            const monthOrder = { 'JAN':1, 'FEB':2, 'MAR':3, 'APR':4, 'MAY':5, 'JUN':6, 'JUL':7, 'AUG':8, 'SEP':9, 'OCT':10, 'NOV':11, 'DEC':12 };
+            const yoyData = {};
+            Object.keys(monthOrder).forEach(m => yoyData[m] = { '2025': 0, '2026': 0 });
+
+            yoyTx.forEach(tx => {
+                if (yoyData[tx.month] && (tx.year === '2025' || tx.year === '2026')) {
+                    yoyData[tx.month][tx.year] += tx.amount;
+                }
+            });
+
+            const labels = Object.keys(monthOrder).sort((a,b) => monthOrder[a] - monthOrder[b]);
+            const data2025 = labels.map(m => yoyData[m]['2025']);
+            const data2026 = labels.map(m => yoyData[m]['2026']);
+
+            const ctxTrend = document.getElementById('yoyTrendChart').getContext('2d');
+            CHART_INSTANCES.yoyTrend = new Chart(ctxTrend, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        { label: 'ปี 2025', data: data2025, backgroundColor: '#94a3b8', borderRadius: 4, barPercentage: 0.8, categoryPercentage: 0.8 },
+                        { label: 'ปี 2026', data: data2026, backgroundColor: '#3b82f6', borderRadius: 4, barPercentage: 0.8, categoryPercentage: 0.8 }
+                    ]
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: { 
+                        datalabels: { display: false },
+                        legend: { position: 'top', align: 'end', labels: { font: { size: 13, weight: 'bold' } } },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return ` ${context.dataset.label}: ${formatNum(context.raw)} บาท`;
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: { grid: { borderDash: [3,3], color: '#f1f5f9' }, ticks: { callback: v => formatCompact(v), font: { size: 13 } } },
+                        x: { grid: { display: false }, ticks: { font: { size: 13, weight: 'bold' } } }
+                    }
+                }
+            });
         }
 
         function renderCharts(transactions, activeSummary) {
@@ -743,7 +965,6 @@
                     data: {
                         labels: deptArr.map(d => d.name),
                         datasets: [
-                            // เปลี่ยนจาก fix barThickness เป็น maxBarThickness เพื่อให้แท่งขยายตัวได้ยืดหยุ่น
                             { label: 'Budget', data: deptArr.map(d => d.budget), backgroundColor: '#cbd5e1', borderRadius: 4, maxBarThickness: 60 },
                             { label: 'Actual', data: deptArr.map(d => d.actual), backgroundColor: '#3b82f6', borderRadius: 4, maxBarThickness: 60 }
                         ]
@@ -759,11 +980,10 @@
                 });
             }
 
-            // 4. Monthly Trend Chart
+            // 4. Monthly Trend Chart (Current Year)
             destroyChart('trend');
             document.getElementById('trend-badge').classList.toggle('hidden-view', STATE.selectedMonth === 'All');
             
-            // คำนวณงบประมาณรวมตาม Context ปัจจุบัน เพื่อใช้หาเปอร์เซ็นต์
             const totalTrendBudget = activeSummary.reduce((sum, item) => sum + item.budget, 0);
 
             const trendGroup = transactions.reduce((acc, tx) => {
@@ -783,10 +1003,9 @@
                     },
                     options: {
                         responsive: true, maintainAspectRatio: false,
-                        layout: { padding: { top: 25 } }, // เพิ่มพื้นที่ด้านบนกันตัวเลข % แหว่ง
+                        layout: { padding: { top: 25 } },
                         plugins: { 
                             legend: {display: false},
-                            // เพิ่ม Datalabels แสดง % บนยอดแท่งกราฟรายเดือน
                             datalabels: { 
                                 display: true,
                                 anchor: 'end',
@@ -798,13 +1017,12 @@
                                     return p > 0 ? p + '%' : '';
                                 }
                             },
-                            // เพิ่ม Tooltip ให้แสดงยอดเงิน + % เทียบ Budget
                             tooltip: {
                                 callbacks: {
                                     label: function(context) {
                                         let val = context.raw;
                                         let percentage = totalTrendBudget > 0 ? ((val / totalTrendBudget) * 100).toFixed(1) : 0;
-                                        return ` ยอดจ่าย: ${formatNum(val)} บาท (${percentage}% ของงบทั้งปี)`;
+                                        return ` ยอดจ่าย: ${formatNum(val)} บาท (${percentage}% ของงบปี ${STATE.selectedYear})`;
                                     }
                                 }
                             }
@@ -817,7 +1035,7 @@
                 });
             }
 
-            // 5. Category Bar Chart (Actual vs Budget) - ขยายให้กว้างและหนาขึ้น
+            // 5. Category Bar Chart (Actual vs Budget)
             destroyChart('categoryBar');
             const catVsGroup = activeSummary.reduce((acc, item) => {
                 if (!acc[item.category]) acc[item.category] = { name: item.category, actual: 0, budget: 0 };
@@ -831,10 +1049,8 @@
                 CHART_INSTANCES.categoryBar = new Chart(ctx, {
                     type: 'bar',
                     data: {
-                        // ยอมให้ตัวหนังสือยาวขึ้นได้ถึง 35 ตัวอักษร
                         labels: catVsData.map(d => d.name.length > 35 ? d.name.substring(0, 35) + '...' : d.name),
                         datasets: [
-                            // กำหนดความหนาแท่งกราฟให้ชัดเจน ไม่ลีบแบน
                             { label: 'Budget', data: catVsData.map(d => d.budget), backgroundColor: '#cbd5e1', borderRadius: 4, barThickness: 24, maxBarThickness: 30 },
                             { label: 'Actual', data: catVsData.map(d => d.actual), backgroundColor: '#3b82f6', borderRadius: 4, barThickness: 24, maxBarThickness: 30 }
                         ]
@@ -843,21 +1059,14 @@
                         indexAxis: 'y', 
                         responsive: true, 
                         maintainAspectRatio: false,
-                        layout: { padding: { right: 20 } }, // เว้นขวาไว้กันข้อความบัง
+                        layout: { padding: { right: 20 } },
                         plugins: { 
                             datalabels: { display: false },
                             legend: { position: 'top', align: 'end', labels: { font: { size: 14 } } }
                         },
                         scales: {
-                            x: { 
-                                grid: { borderDash: [3,3], color: '#f1f5f9' }, 
-                                ticks: { callback: v => formatCompact(v), font: { size: 13 } } 
-                            },
-                            y: { 
-                                grid: { display: false }, 
-                                // ปรับฟอนต์และระยะห่างให้อ่านชื่อหมวดหมู่ได้ชัดเจนขึ้น
-                                ticks: { font: { weight: '500', size: 14 }, padding: 12 } 
-                            }
+                            x: { grid: { borderDash: [3,3], color: '#f1f5f9' }, ticks: { callback: v => formatCompact(v), font: { size: 13 } } },
+                            y: { grid: { display: false }, ticks: { font: { weight: '500', size: 14 }, padding: 12 } }
                         }
                     }
                 });
