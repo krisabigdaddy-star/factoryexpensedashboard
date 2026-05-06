@@ -398,36 +398,75 @@
             return map;
         };
 
-        // Parse individual sheet function
+        // Parse individual sheet function with Dynamic Column Mapping
         const processTxSheet = (workbook, sheetName, year) => {
             if(!workbook.SheetNames.includes(sheetName)) return [];
             const lines = XLSX.utils.sheet_to_json(workbook.Sheets[sheetName], { header: 1, defval: "" });
-            const txs = [];
-            for (let i = 0; i < lines.length; i++) {
+            if (lines.length < 2) return [];
+
+            let headerRowIdx = -1;
+            let colMap = { depCd: -1, period: -1, accSeg: -1, subAccSeg: -1, party: -1, headerDesc: -1, lineDesc: -1, debit: -1 };
+            
+            // สแกนหาบรรทัด Header (รองรับกรณีมีหัวรายงานอยู่ด้านบนสุด)
+            for(let i=0; i<Math.min(10, lines.length); i++) {
                 const row = lines[i];
-                if (!row || row.length < 9) continue;
+                const rowStr = row.join('').toLowerCase();
+                // ค้นหาคีย์เวิร์ดที่เป็นจุดสังเกตของบรรทัด Header
+                if (rowStr.includes('depcd') || rowStr.includes('acc. segment')) {
+                    headerRowIdx = i;
+                    row.forEach((colName, idx) => {
+                        const name = String(colName).trim().toLowerCase();
+                        if(name === 'depcd') colMap.depCd = idx;
+                        else if(name === 'period') colMap.period = idx;
+                        else if(name === 'acc. segment') colMap.accSeg = idx;
+                        else if(name === 'sub acc. segment') colMap.subAccSeg = idx;
+                        else if(name === 'party name') colMap.party = idx;
+                        else if(name === 'header description') colMap.headerDesc = idx;
+                        else if(name === 'line description') colMap.lineDesc = idx;
+                        else if(name === 'debit') colMap.debit = idx;
+                    });
+                    break;
+                }
+            }
+
+            const txs = [];
+            // ถ้าหา Header ไม่เจอ หรือ Map ไม่ครบ ให้ยึดตาม Format ดั้งเดิมเป็น Fallback
+            const useFallback = headerRowIdx === -1 || colMap.depCd === -1 || colMap.debit === -1;
+            const startIdx = useFallback ? 1 : headerRowIdx + 1; // เริ่มอ่านบรรทัดถัดจาก Header
+
+            for (let i = startIdx; i < lines.length; i++) {
+                const row = lines[i];
+                if (!row || row.length === 0) continue;
                 
-                // ตรวจสอบคอลัมน์แรกว่าเป็นรหัสแผนกหรือไม่
-                const deptCode = String(row[0] || '').trim();
+                // ใช้ index แบบ Dynamic หรือ Fallback กลับไปใช้ Index คงที่
+                const cDep = useFallback ? 0 : colMap.depCd;
+                const cPer = useFallback ? 1 : colMap.period;
+                const cAcc = useFallback ? 2 : colMap.accSeg;
+                const cSub = useFallback ? 3 : colMap.subAccSeg;
+                const cPty = useFallback ? 5 : colMap.party;
+                const cHdr = useFallback ? 6 : colMap.headerDesc;
+                const cLin = useFallback ? 7 : colMap.lineDesc;
+                const cDeb = useFallback ? 8 : colMap.debit;
+
+                const deptCode = String(row[cDep] || '').trim();
                 if (!deptCode.startsWith('V33')) continue;
 
-                // ดึงเฉพาะชื่อเดือน 3 ตัวอักษร เช่น 'JAN'
-                const monthRaw = String(row[1] || '').trim().toUpperCase();
+                const monthRaw = String(row[cPer] || '').trim().toUpperCase();
                 const monthStr = monthRaw.split('-')[0];
 
-                const glCode = extractGLCode(row[2], row[3]);
+                const glCode = extractGLCode(row[cAcc], row[cSub]);
                 if (!glCode) continue;
 
-                const amount = parseNumber(row[8]); 
+                const amount = parseNumber(row[cDeb]); 
                 txs.push({
                     id: `tx-${year}-${i}`, 
                     year: year,
                     dept: deptCode, 
                     month: monthStr, 
                     glCode: glCode,
-                    party: String(row[5] || '').trim(),
-                    headerDesc: String(row[6] || '').trim(),
-                    lineDesc: String(row[7] || '').trim(),
+                    party: String(row[cPty] || '').trim(),
+                    headerDesc: String(row[cHdr] || '').trim(),
+                    lineDesc: String(row[cLin] || '').trim(),
                     amount: amount
                 });
             }
