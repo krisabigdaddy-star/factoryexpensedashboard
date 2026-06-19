@@ -67,14 +67,21 @@
                        class="pl-10 pr-4 py-2 w-full sm:w-48 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
             </div>
 
-            <!-- Year Select -->
-            <div class="bg-slate-50 p-1.5 rounded-lg border border-slate-200 flex items-center gap-2 w-full sm:w-auto">
-                <i data-lucide="calendar-clock" class="text-slate-500 ml-1 w-4 h-4"></i>
-                <select id="year-select" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md focus:ring-blue-500 focus:border-blue-500 block p-1.5 cursor-pointer disabled:opacity-50 w-full outline-none">
-                    <option value="2026">ปี 2026</option>
-                    <option value="2025">ปี 2025</option>
-                    <option value="All">รวมทุกปี</option>
-                </select>
+            <!-- Multi-Select Year -->
+            <div class="relative w-full sm:w-auto">
+                <button id="year-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-36 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                    <div class="flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4 text-slate-500"></i> <span id="year-text" class="truncate">รวมทุกปี</span></div>
+                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                </button>
+                <div id="year-panel" class="hidden absolute z-50 mt-1 w-full sm:w-40 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
+                    <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
+                        <input type="checkbox" value="All" class="year-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
+                        <span class="ml-2 text-sm text-slate-700 font-bold">รวมทุกปี</span>
+                    </label>
+                    <div id="year-list-container">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
             </div>
 
             <!-- Multi-Select Dept -->
@@ -134,13 +141,13 @@
     <!-- Main Dashboard View (Hidden Initially) -->
     <div id="dashboard-view" class="hidden-view">
         
-        <!-- KPI Cards (ปรับเป็น 5 การ์ด) -->
+        <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4 mb-8">
             <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-5 flex flex-col relative overflow-hidden">
                 <div class="absolute top-0 right-0 w-16 h-16 bg-blue-50 rounded-bl-full -z-10"></div>
                 <div class="flex justify-between items-start z-10">
                     <div>
-                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">ค่าใช้จ่ายจริง (<span id="kpi-year-badge">2026</span>)</p>
+                        <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wide">ค่าใช้จ่ายจริง (<span id="kpi-year-badge">รวมทุกปี</span>)</p>
                         <h3 id="kpi-actual" class="text-2xl font-bold text-blue-600 mt-2">0.00</h3>
                         <span id="kpi-filter-badge" class="hidden-view text-[10px] bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded mt-1 inline-block">Filtered</span>
                     </div>
@@ -184,7 +191,7 @@
                 </div>
             </div>
 
-            <!-- NEW: Cost / Unit KPI -->
+            <!-- Cost / Unit KPI -->
             <div class="bg-indigo-600 rounded-xl shadow-md border border-indigo-700 p-5 flex flex-col relative overflow-hidden text-white">
                 <div class="absolute top-0 right-0 w-24 h-24 bg-indigo-500 rounded-bl-full opacity-50 -z-10"></div>
                 <div class="flex justify-between items-start z-10">
@@ -200,7 +207,7 @@
             </div>
         </div>
 
-        <!-- NEW: YoY Cost Per Unit Trend Chart -->
+        <!-- YoY Cost Per Unit Trend Chart -->
         <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200 flex flex-col mb-8 relative">
             <div class="absolute top-0 left-0 w-1 h-full bg-indigo-500 rounded-l-xl"></div>
             <h3 class="text-lg font-bold text-slate-800 mb-6 border-b pb-2 flex items-center justify-between">
@@ -345,12 +352,13 @@
         // Global State
         const STATE = {
             transactions: [],
-            productionData: [], // เก็บข้อมูลยอดผลิต
+            productionData: [], 
+            availableYears: [], // For Year Multi-select
             availableDepts: ['V330-VCP', 'V331-VCP/P', 'V332-VCP/Q', 'V334-VCP/W', 'V335-VCP/E'],
             availableMonths: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
-            selectedYear: '2026', 
-            selectedDept: ['All'],   // Array for Multi-select
-            selectedMonth: ['All'],  // Array for Multi-select
+            selectedYear: ['All'],   // Multi-select state
+            selectedDept: ['All'],   
+            selectedMonth: ['All'],  
             searchTerm: '',
             searchLineDesc: '',
             isUploaded: false,
@@ -397,7 +405,7 @@
         const toggleView = () => {
             document.getElementById('empty-state').classList.toggle('hidden-view', STATE.isUploaded);
             document.getElementById('dashboard-view').classList.toggle('hidden-view', !STATE.isUploaded);
-            const inputs = ['year-select', 'search-input', 'search-line-input', 'dept-btn', 'month-btn'];
+            const inputs = ['year-btn', 'search-input', 'search-line-input', 'dept-btn', 'month-btn'];
             inputs.forEach(id => document.getElementById(id).disabled = !STATE.isUploaded);
         };
 
@@ -408,6 +416,9 @@
         };
 
         document.addEventListener('click', (e) => {
+            if(!document.getElementById('year-btn').contains(e.target) && !document.getElementById('year-panel').contains(e.target)) {
+                document.getElementById('year-panel').classList.add('hidden');
+            }
             if(!document.getElementById('dept-btn').contains(e.target) && !document.getElementById('dept-panel').contains(e.target)) {
                 document.getElementById('dept-panel').classList.add('hidden');
             }
@@ -416,6 +427,7 @@
             }
         });
 
+        document.getElementById('year-btn').addEventListener('click', () => toggleDropdown('year-btn', 'year-panel'));
         document.getElementById('dept-btn').addEventListener('click', () => toggleDropdown('dept-btn', 'dept-panel'));
         document.getElementById('month-btn').addEventListener('click', () => toggleDropdown('month-btn', 'month-panel'));
 
@@ -580,8 +592,13 @@
                     }
 
                     // Init Dropdowns
+                    const foundYears = new Set(STATE.transactions.map(t => t.year));
+                    STATE.availableYears = Array.from(foundYears).sort();
+                    
                     const foundMonths = new Set(STATE.transactions.map(t => t.month));
                     const sortedMonths = STATE.availableMonths.filter(m => foundMonths.has(m));
+                    
+                    initMultiSelect('year-list-container', STATE.availableYears, 'year-cb', 'selectedYear', 'year-text', 'รวมทุกปี');
                     initMultiSelect('dept-list-container', STATE.availableDepts, 'dept-cb', 'selectedDept', 'dept-text', 'ทุกแผนก');
                     initMultiSelect('month-list-container', sortedMonths, 'month-cb', 'selectedMonth', 'month-text', 'รวมทั้งปี');
 
@@ -599,7 +616,6 @@
         });
 
         // Search Handlers
-        document.getElementById('year-select').addEventListener('change', (e) => { STATE.selectedYear = e.target.value; recalculateDashboard(); });
         document.getElementById('search-input').addEventListener('input', (e) => { STATE.searchTerm = e.target.value; recalculateDashboard(); });
         document.getElementById('search-line-input').addEventListener('input', (e) => { STATE.searchLineDesc = e.target.value; recalculateDashboard(); });
 
@@ -610,7 +626,7 @@
             const term = STATE.searchTerm.toLowerCase().trim();
             const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
 
-            const currentYearTx = STATE.transactions.filter(tx => STATE.selectedYear === 'All' || tx.year === STATE.selectedYear);
+            const currentYearTx = STATE.transactions.filter(tx => STATE.selectedYear.includes('All') || STATE.selectedYear.includes(tx.year));
 
             const filteredTx = currentYearTx.filter(tx => {
                 const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept);
@@ -635,8 +651,8 @@
                 });
             };
 
-            if (STATE.selectedYear === '2025' || STATE.selectedYear === 'All') addBudgetToSum(STATE.masterMap['2025']);
-            if (STATE.selectedYear === '2026' || STATE.selectedYear === 'All') addBudgetToSum(STATE.masterMap['2026']);
+            if (STATE.selectedYear.includes('All') || STATE.selectedYear.includes('2025')) addBudgetToSum(STATE.masterMap['2025']);
+            if (STATE.selectedYear.includes('All') || STATE.selectedYear.includes('2026')) addBudgetToSum(STATE.masterMap['2026']);
 
             currentYearTx.forEach(tx => {
                 if(STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept)) {
@@ -662,7 +678,7 @@
                 return { ...item, activeActual: matchedTx.reduce((sum, tx) => sum + tx.amount, 0) };
             }).filter(item => item.activeActual !== 0 || (item.budget !== 0 && term === '' && lineTerm === ''));
 
-            document.getElementById('kpi-year-badge').innerText = STATE.selectedYear === 'All' ? 'รวมทุกปี' : `ปี ${STATE.selectedYear}`;
+            document.getElementById('kpi-year-badge').innerText = STATE.selectedYear.includes('All') ? 'รวมทุกปี' : `ปี ${STATE.selectedYear.join(', ')}`;
 
             renderKPIs(activeSummary, term !== '' || lineTerm !== '');
             renderTables(filteredTx, activeSummary);
@@ -699,7 +715,7 @@
 
             // Calculate CPU
             const validProd = STATE.productionData.filter(p => {
-                const matchYear = STATE.selectedYear === 'All' || p.year === STATE.selectedYear;
+                const matchYear = STATE.selectedYear.includes('All') || STATE.selectedYear.includes(p.year);
                 const matchMonth = STATE.selectedMonth.includes('All') || STATE.selectedMonth.includes(p.month);
                 return matchYear && matchMonth;
             });
@@ -747,9 +763,23 @@
                 }
             });
 
+            let sumAct25 = 0, sumQty25 = 0;
+            let sumAct26 = 0, sumQty26 = 0;
+
+            Object.values(cpuData).forEach(d => {
+                sumAct25 += d['2025'].actual; sumQty25 += d['2025'].qty;
+                sumAct26 += d['2026'].actual; sumQty26 += d['2026'].qty;
+            });
+
+            const avg25 = sumQty25 > 0 ? (sumAct25 / sumQty25).toFixed(2) : null;
+            const avg26 = sumQty26 > 0 ? (sumAct26 / sumQty26).toFixed(2) : null;
+
             const labels = Object.keys(monthOrder).sort((a,b) => monthOrder[a] - monthOrder[b]);
-            const c25 = labels.map(m => { const d = cpuData[m]['2025']; return d.qty > 0 ? (d.actual / d.qty).toFixed(2) : 0; });
-            const c26 = labels.map(m => { const d = cpuData[m]['2026']; return d.qty > 0 ? (d.actual / d.qty).toFixed(2) : 0; });
+            const c25 = labels.map(m => { const d = cpuData[m]['2025']; return d.qty > 0 ? (d.actual / d.qty).toFixed(2) : null; });
+            const c26 = labels.map(m => { const d = cpuData[m]['2026']; return d.qty > 0 ? (d.actual / d.qty).toFixed(2) : null; });
+            
+            const dAvg25 = labels.map(() => avg25);
+            const dAvg26 = labels.map(() => avg26);
 
             const ctx = document.getElementById('cpuTrendChart').getContext('2d');
             CHART_INSTANCES.cpuTrend = new Chart(ctx, {
@@ -758,14 +788,54 @@
                     labels: labels,
                     datasets: [
                         { label: 'CPU 2025', data: c25, borderColor: '#94a3b8', backgroundColor: '#94a3b8', borderWidth: 2, pointRadius: 4, pointHoverRadius: 6, fill: false, tension: 0.3 },
-                        { label: 'CPU 2026', data: c26, borderColor: '#4f46e5', backgroundColor: '#4f46e5', borderWidth: 3, pointRadius: 5, pointHoverRadius: 7, fill: false, tension: 0.3 }
+                        { label: 'CPU 2026', data: c26, borderColor: '#4f46e5', backgroundColor: '#4f46e5', borderWidth: 3, pointRadius: 5, pointHoverRadius: 7, fill: false, tension: 0.3 },
+                        { 
+                            label: 'เฉลี่ย 2025', 
+                            data: dAvg25, 
+                            borderColor: '#f59e0b', // สีเหลืองส้ม (Amber)
+                            backgroundColor: '#f59e0b', 
+                            borderWidth: 2, 
+                            borderDash: [5,5], 
+                            pointRadius: 0, 
+                            fill: false, 
+                            tension: 0, 
+                            datalabels: { 
+                                display: function(context) { return context.dataIndex === labels.length - 1; }, // แสดงเฉพาะจุดสุดท้าย
+                                align: 'top',
+                                anchor: 'end',
+                                color: '#f59e0b',
+                                font: { weight: 'bold', size: 11 },
+                                formatter: (v) => v ? `เฉลี่ย: ${v}` : ''
+                            } 
+                        },
+                        { 
+                            label: 'เฉลี่ย 2026', 
+                            data: dAvg26, 
+                            borderColor: '#10b981', // สีเขียว (Emerald)
+                            backgroundColor: '#10b981', 
+                            borderWidth: 2, 
+                            borderDash: [5,5], 
+                            pointRadius: 0, 
+                            fill: false, 
+                            tension: 0, 
+                            datalabels: { 
+                                display: function(context) { return context.dataIndex === labels.length - 1; }, // แสดงเฉพาะจุดสุดท้าย
+                                align: 'bottom', // ดันข้อความลงล่างเพื่อไม่ให้ทับกับของปี 2025
+                                anchor: 'end',
+                                color: '#10b981',
+                                font: { weight: 'bold', size: 11 },
+                                formatter: (v) => v ? `เฉลี่ย: ${v}` : ''
+                            } 
+                        }
                     ]
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
+                    layout: { padding: { right: 60, top: 20, bottom: 20 } }, // เพิ่มพื้นที่กันตัวอักษรปลายกราฟโดนตัด
                     plugins: { 
                         datalabels: { 
-                            display: true, align: 'top', anchor: 'end', color: '#475569', font: { weight: 'bold', size: 11 },
+                            display: function(context) { return context.datasetIndex < 2; }, // ให้ Default แสดงเฉพาะเส้นหลัก (CPU 2025/2026)
+                            align: 'top', anchor: 'end', color: '#475569', font: { weight: 'bold', size: 11 },
                             formatter: (v) => v > 0 ? v : ''
                         },
                         legend: { position: 'top', align: 'end', labels: { font: { size: 13, weight: 'bold' } } },
@@ -952,7 +1022,11 @@
             });
             const sortedCats = Object.values(catMap).sort((a,b) => b.actual - a.actual);
             document.getElementById('gl-count').innerText = `แสดง ${sortedCats.length} หมวดหมู่`;
-            document.getElementById('gl-actual-header').innerText = STATE.selectedMonth.includes('All') ? '' : '(Filtered)';
+            
+            const glHeaderInfo = document.getElementById('gl-actual-header');
+            if (glHeaderInfo) {
+                glHeaderInfo.innerText = STATE.selectedMonth.includes('All') ? '' : '(Filtered)';
+            }
 
             const glBody = document.getElementById('gl-table-body');
             if (sortedCats.length === 0) glBody.innerHTML = `<tr><td colspan="4" class="px-6 py-12 text-center text-slate-400 bg-slate-50">ไม่พบข้อมูลในเงื่อนไขที่เลือก</td></tr>`;
