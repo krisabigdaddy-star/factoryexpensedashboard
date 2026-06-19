@@ -53,23 +53,39 @@
         
         <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full xl:w-auto">
             
-            <!-- Search -->
+            <!-- Search Main -->
             <div class="relative w-full sm:w-auto">
                 <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
                 <input type="text" id="search-input" disabled placeholder="ค้นหาผู้เบิก, คีย์เวิร์ด..." 
-                       class="pl-10 pr-4 py-2 w-full sm:w-48 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                       class="pl-10 pr-8 py-2 w-full sm:w-40 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                <button id="clear-search-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
             </div>
 
             <!-- Search Line Description -->
             <div class="relative w-full sm:w-auto">
                 <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
                 <input type="text" id="search-line-input" disabled placeholder="ค้นหา Line Desc..." 
-                       class="pl-10 pr-4 py-2 w-full sm:w-48 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                       class="pl-10 pr-8 py-2 w-full sm:w-40 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                <button id="clear-line-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
+            </div>
+
+            <!-- Search GL Code -->
+            <div class="relative w-full sm:w-auto">
+                <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
+                <input type="text" id="search-gl-input" disabled placeholder="ค้นหารหัส GL..." 
+                       class="pl-10 pr-8 py-2 w-full sm:w-32 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                <button id="clear-gl-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
+                    <i data-lucide="x" class="w-4 h-4"></i>
+                </button>
             </div>
 
             <!-- Multi-Select Year -->
             <div class="relative w-full sm:w-auto">
-                <button id="year-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-36 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                <button id="year-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
                     <div class="flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4 text-slate-500"></i> <span id="year-text" class="truncate">รวมทุกปี</span></div>
                     <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
                 </button>
@@ -86,7 +102,7 @@
 
             <!-- Multi-Select Dept -->
             <div class="relative w-full sm:w-auto">
-                <button id="dept-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-40 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                <button id="dept-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
                     <div class="flex items-center gap-2"><i data-lucide="building" class="w-4 h-4 text-slate-500"></i> <span id="dept-text" class="truncate">ทุกแผนก</span></div>
                     <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
                 </button>
@@ -103,7 +119,7 @@
 
             <!-- Multi-Select Month -->
             <div class="relative w-full sm:w-auto">
-                <button id="month-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-36 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                <button id="month-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
                     <div class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i> <span id="month-text" class="truncate">รวมทั้งปี</span></div>
                     <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
                 </button>
@@ -134,7 +150,7 @@
         <ul class="text-slate-500 text-sm mt-2 list-disc ml-4 text-left">
             <li><span class="font-semibold text-slate-700">"2026 YTD" / "2025"</span> - ข้อมูลรายการเบิกจ่ายจริง</li>
             <li><span class="font-semibold text-slate-700">"ACC Code Budget 2026 / 2025"</span> - ข้อมูลเป้าหมายงบประมาณ</li>
-            <li><span class="font-semibold text-indigo-600">"Production" (ใหม่)</span> - ข้อมูลปริมาณการผลิต (QTY_PROD)</li>
+            <li><span class="font-semibold text-indigo-600">"Production"</span> - ข้อมูลปริมาณการผลิต (QTY_PROD)</li>
         </ul>
     </div>
 
@@ -353,14 +369,15 @@
         const STATE = {
             transactions: [],
             productionData: [], 
-            availableYears: [], // For Year Multi-select
+            availableYears: [], 
             availableDepts: ['V330-VCP', 'V331-VCP/P', 'V332-VCP/Q', 'V334-VCP/W', 'V335-VCP/E'],
             availableMonths: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
-            selectedYear: ['All'],   // Multi-select state
+            selectedYear: ['All'],   
             selectedDept: ['All'],   
             selectedMonth: ['All'],  
             searchTerm: '',
             searchLineDesc: '',
+            searchGL: '',            
             isUploaded: false,
             masterMap: { '2025': {}, '2026': {} }
         };
@@ -395,36 +412,39 @@
         const setStatus = (isSuccess, text) => {
             const icon = document.getElementById('status-icon');
             const textEl = document.getElementById('status-text');
-            icon.setAttribute('data-lucide', isSuccess ? 'check-circle-2' : 'alert-circle');
-            icon.className = isSuccess ? 'text-emerald-500 w-4 h-4' : 'text-amber-500 w-4 h-4';
-            textEl.className = isSuccess ? 'text-xs font-medium text-emerald-600' : 'text-xs font-medium text-amber-600';
-            textEl.innerText = text;
-            lucide.createIcons();
+            if (icon && textEl) {
+                icon.setAttribute('data-lucide', isSuccess ? 'check-circle-2' : 'alert-circle');
+                icon.className = isSuccess ? 'text-emerald-500 w-4 h-4' : 'text-amber-500 w-4 h-4';
+                textEl.className = isSuccess ? 'text-xs font-medium text-emerald-600' : 'text-xs font-medium text-amber-600';
+                textEl.innerText = text;
+                lucide.createIcons();
+            }
         };
 
         const toggleView = () => {
             document.getElementById('empty-state').classList.toggle('hidden-view', STATE.isUploaded);
             document.getElementById('dashboard-view').classList.toggle('hidden-view', !STATE.isUploaded);
-            const inputs = ['year-btn', 'search-input', 'search-line-input', 'dept-btn', 'month-btn'];
-            inputs.forEach(id => document.getElementById(id).disabled = !STATE.isUploaded);
+            const inputs = ['year-btn', 'search-input', 'search-line-input', 'search-gl-input', 'dept-btn', 'month-btn'];
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.disabled = !STATE.isUploaded;
+            });
         };
 
         // Dropdown Logic (Multi-select)
         const toggleDropdown = (btnId, panelId) => {
             const panel = document.getElementById(panelId);
-            panel.classList.toggle('hidden');
+            if(panel) panel.classList.toggle('hidden');
         };
 
         document.addEventListener('click', (e) => {
-            if(!document.getElementById('year-btn').contains(e.target) && !document.getElementById('year-panel').contains(e.target)) {
-                document.getElementById('year-panel').classList.add('hidden');
-            }
-            if(!document.getElementById('dept-btn').contains(e.target) && !document.getElementById('dept-panel').contains(e.target)) {
-                document.getElementById('dept-panel').classList.add('hidden');
-            }
-            if(!document.getElementById('month-btn').contains(e.target) && !document.getElementById('month-panel').contains(e.target)) {
-                document.getElementById('month-panel').classList.add('hidden');
-            }
+            const pYear = document.getElementById('year-panel');
+            const pDept = document.getElementById('dept-panel');
+            const pMonth = document.getElementById('month-panel');
+            
+            if(pYear && !document.getElementById('year-btn').contains(e.target) && !pYear.contains(e.target)) pYear.classList.add('hidden');
+            if(pDept && !document.getElementById('dept-btn').contains(e.target) && !pDept.contains(e.target)) pDept.classList.add('hidden');
+            if(pMonth && !document.getElementById('month-btn').contains(e.target) && !pMonth.contains(e.target)) pMonth.classList.add('hidden');
         });
 
         document.getElementById('year-btn').addEventListener('click', () => toggleDropdown('year-btn', 'year-panel'));
@@ -433,6 +453,7 @@
 
         const initMultiSelect = (containerId, items, cbClass, stateKey, textId, defaultText) => {
             const container = document.getElementById(containerId);
+            if(!container) return;
             container.innerHTML = items.map(item => `
                 <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer">
                     <input type="checkbox" value="${item}" class="${cbClass} form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300">
@@ -446,12 +467,14 @@
                     if (val === 'All' && e.target.checked) {
                         document.querySelectorAll(`.${cbClass}`).forEach(c => { if(c.value !== 'All') c.checked = false; });
                     } else if (val !== 'All' && e.target.checked) {
-                        document.querySelector(`.${cbClass}[value="All"]`).checked = false;
+                        const allCb = document.querySelector(`.${cbClass}[value="All"]`);
+                        if(allCb) allCb.checked = false;
                     }
                     
                     let selected = Array.from(document.querySelectorAll(`.${cbClass}:checked`)).map(c => c.value);
                     if(selected.length === 0) {
-                        document.querySelector(`.${cbClass}[value="All"]`).checked = true;
+                        const allCb = document.querySelector(`.${cbClass}[value="All"]`);
+                        if(allCb) allCb.checked = true;
                         selected = ['All'];
                     }
                     STATE[stateKey] = selected;
@@ -460,7 +483,8 @@
                     if (!selected.includes('All')) {
                         btnText = selected.length === 1 ? selected[0] : `${selected.length} รายการ`;
                     }
-                    document.getElementById(textId).innerText = btnText;
+                    const textEl = document.getElementById(textId);
+                    if(textEl) textEl.innerText = btnText;
                     recalculateDashboard();
                 });
             });
@@ -615,9 +639,30 @@
             reader.readAsArrayBuffer(file);
         });
 
-        // Search Handlers
-        document.getElementById('search-input').addEventListener('input', (e) => { STATE.searchTerm = e.target.value; recalculateDashboard(); });
-        document.getElementById('search-line-input').addEventListener('input', (e) => { STATE.searchLineDesc = e.target.value; recalculateDashboard(); });
+        // Search Handlers & Clear Buttons
+        const setupSearchInput = (inputId, clearBtnId, stateKey) => {
+            const inputEl = document.getElementById(inputId);
+            const clearBtn = document.getElementById(clearBtnId);
+            
+            if(!inputEl || !clearBtn) return;
+
+            inputEl.addEventListener('input', (e) => {
+                STATE[stateKey] = e.target.value;
+                clearBtn.classList.toggle('hidden', e.target.value.length === 0);
+                recalculateDashboard();
+            });
+
+            clearBtn.addEventListener('click', () => {
+                inputEl.value = '';
+                STATE[stateKey] = '';
+                clearBtn.classList.add('hidden');
+                recalculateDashboard();
+            });
+        };
+
+        setupSearchInput('search-input', 'clear-search-btn', 'searchTerm');
+        setupSearchInput('search-line-input', 'clear-line-btn', 'searchLineDesc');
+        setupSearchInput('search-gl-input', 'clear-gl-btn', 'searchGL');
 
         // Logic
         function recalculateDashboard() {
@@ -625,6 +670,7 @@
 
             const term = STATE.searchTerm.toLowerCase().trim();
             const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
+            const glTerm = STATE.searchGL.toLowerCase().trim();
 
             const currentYearTx = STATE.transactions.filter(tx => STATE.selectedYear.includes('All') || STATE.selectedYear.includes(tx.year));
 
@@ -633,7 +679,8 @@
                 const matchMonth = STATE.selectedMonth.includes('All') || STATE.selectedMonth.includes(tx.month);
                 const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
                 const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
-                return matchDept && matchMonth && matchSearch && matchLine;
+                const matchGL = !glTerm || (tx.glCode || '').toLowerCase().includes(glTerm);
+                return matchDept && matchMonth && matchSearch && matchLine && matchGL;
             });
 
             const sumMap = {};
@@ -673,14 +720,16 @@
                     const matchMonth = STATE.selectedMonth.includes('All') || STATE.selectedMonth.includes(tx.month);
                     const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
                     const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
-                    return matchMonth && matchSearch && matchLine;
+                    const matchGL = !glTerm || (tx.glCode || '').toLowerCase().includes(glTerm);
+                    return matchMonth && matchSearch && matchLine && matchGL;
                 });
                 return { ...item, activeActual: matchedTx.reduce((sum, tx) => sum + tx.amount, 0) };
-            }).filter(item => item.activeActual !== 0 || (item.budget !== 0 && term === '' && lineTerm === ''));
+            }).filter(item => item.activeActual !== 0 || (item.budget !== 0 && term === '' && lineTerm === '' && glTerm === ''));
 
-            document.getElementById('kpi-year-badge').innerText = STATE.selectedYear.includes('All') ? 'รวมทุกปี' : `ปี ${STATE.selectedYear.join(', ')}`;
+            const yearBadge = document.getElementById('kpi-year-badge');
+            if (yearBadge) yearBadge.innerText = STATE.selectedYear.includes('All') ? 'รวมทุกปี' : `ปี ${STATE.selectedYear.join(', ')}`;
 
-            renderKPIs(activeSummary, term !== '' || lineTerm !== '');
+            renderKPIs(activeSummary, term !== '' || lineTerm !== '' || glTerm !== '');
             renderTables(filteredTx, activeSummary);
             renderYoYCharts();
             renderYoYCpuTrendChart();
@@ -693,25 +742,36 @@
             const variance = totalBudget - totalActual;
             const usagePercent = totalBudget > 0 ? ((totalActual / totalBudget) * 100).toFixed(1) : 0;
 
-            document.getElementById('kpi-filter-badge').classList.toggle('hidden-view', !isFiltered);
-            document.getElementById('kpi-actual').innerText = formatNum(totalActual);
-            document.getElementById('kpi-budget').innerText = formatNum(totalBudget);
+            const filterBadge = document.getElementById('kpi-filter-badge');
+            if (filterBadge) filterBadge.classList.toggle('hidden-view', !isFiltered);
+            
+            const actualEl = document.getElementById('kpi-actual');
+            if (actualEl) actualEl.innerText = formatNum(totalActual);
+            
+            const budgetEl = document.getElementById('kpi-budget');
+            if (budgetEl) budgetEl.innerText = formatNum(totalBudget);
             
             const varEl = document.getElementById('kpi-variance');
             const varIcon = document.getElementById('kpi-variance-icon');
-            varEl.innerText = (variance >= 0 ? '' : '- ') + formatNum(Math.abs(variance));
-            if (variance >= 0) {
-                varEl.className = "text-2xl font-bold mt-2 text-emerald-600";
-                varIcon.className = "p-2 rounded-lg bg-emerald-100 text-emerald-600";
-            } else {
-                varEl.className = "text-2xl font-bold mt-2 text-red-600";
-                varIcon.className = "p-2 rounded-lg bg-red-100 text-red-600";
+            if (varEl && varIcon) {
+                varEl.innerText = (variance >= 0 ? '' : '- ') + formatNum(Math.abs(variance));
+                if (variance >= 0) {
+                    varEl.className = "text-2xl font-bold mt-2 text-emerald-600";
+                    varIcon.className = "p-2 rounded-lg bg-emerald-100 text-emerald-600";
+                } else {
+                    varEl.className = "text-2xl font-bold mt-2 text-red-600";
+                    varIcon.className = "p-2 rounded-lg bg-red-100 text-red-600";
+                }
             }
 
-            document.getElementById('kpi-percent').innerText = usagePercent;
+            const percentEl = document.getElementById('kpi-percent');
+            if (percentEl) percentEl.innerText = usagePercent;
+            
             const progBar = document.getElementById('kpi-progress');
-            progBar.style.width = `${Math.min(usagePercent, 100)}%`;
-            progBar.className = `h-full rounded-full transition-all duration-1000 ${usagePercent > 100 ? 'bg-red-500' : usagePercent > 80 ? 'bg-amber-500' : 'bg-emerald-500'}`;
+            if (progBar) {
+                progBar.style.width = `${Math.min(usagePercent, 100)}%`;
+                progBar.className = `h-full rounded-full transition-all duration-1000 ${usagePercent > 100 ? 'bg-red-500' : usagePercent > 80 ? 'bg-amber-500' : 'bg-emerald-500'}`;
+            }
 
             // Calculate CPU
             const validProd = STATE.productionData.filter(p => {
@@ -721,7 +781,8 @@
             });
             const totalQty = validProd.reduce((sum, p) => sum + p.qty, 0);
             const cpu = totalQty > 0 ? (totalActual / totalQty) : 0;
-            document.getElementById('kpi-cpu').innerText = formatNum(cpu);
+            const cpuEl = document.getElementById('kpi-cpu');
+            if (cpuEl) cpuEl.innerText = formatNum(cpu);
         }
 
         // Shared Chart Configuration
@@ -738,12 +799,14 @@
 
             const term = STATE.searchTerm.toLowerCase().trim();
             const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
+            const glTerm = STATE.searchGL.toLowerCase().trim();
 
             const yoyTx = STATE.transactions.filter(tx => {
                 const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept);
                 const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
                 const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
-                return matchDept && matchSearch && matchLine;
+                const matchGL = !glTerm || (tx.glCode || '').toLowerCase().includes(glTerm);
+                return matchDept && matchSearch && matchLine && matchGL;
             });
 
             // Aggregate Actuals and QTY by Year/Month
@@ -792,7 +855,7 @@
                         { 
                             label: 'เฉลี่ย 2025', 
                             data: dAvg25, 
-                            borderColor: '#f59e0b', // สีเหลืองส้ม (Amber)
+                            borderColor: '#f59e0b',
                             backgroundColor: '#f59e0b', 
                             borderWidth: 2, 
                             borderDash: [5,5], 
@@ -800,7 +863,7 @@
                             fill: false, 
                             tension: 0, 
                             datalabels: { 
-                                display: function(context) { return context.dataIndex === labels.length - 1; }, // แสดงเฉพาะจุดสุดท้าย
+                                display: function(context) { return context.dataIndex === labels.length - 1; },
                                 align: 'top',
                                 anchor: 'end',
                                 color: '#f59e0b',
@@ -811,7 +874,7 @@
                         { 
                             label: 'เฉลี่ย 2026', 
                             data: dAvg26, 
-                            borderColor: '#10b981', // สีเขียว (Emerald)
+                            borderColor: '#10b981',
                             backgroundColor: '#10b981', 
                             borderWidth: 2, 
                             borderDash: [5,5], 
@@ -819,8 +882,8 @@
                             fill: false, 
                             tension: 0, 
                             datalabels: { 
-                                display: function(context) { return context.dataIndex === labels.length - 1; }, // แสดงเฉพาะจุดสุดท้าย
-                                align: 'bottom', // ดันข้อความลงล่างเพื่อไม่ให้ทับกับของปี 2025
+                                display: function(context) { return context.dataIndex === labels.length - 1; },
+                                align: 'bottom',
                                 anchor: 'end',
                                 color: '#10b981',
                                 font: { weight: 'bold', size: 11 },
@@ -831,10 +894,10 @@
                 },
                 options: {
                     responsive: true, maintainAspectRatio: false,
-                    layout: { padding: { right: 60, top: 20, bottom: 20 } }, // เพิ่มพื้นที่กันตัวอักษรปลายกราฟโดนตัด
+                    layout: { padding: { right: 60, top: 20, bottom: 20 } },
                     plugins: { 
                         datalabels: { 
-                            display: function(context) { return context.datasetIndex < 2; }, // ให้ Default แสดงเฉพาะเส้นหลัก (CPU 2025/2026)
+                            display: function(context) { return context.datasetIndex < 2; },
                             align: 'top', anchor: 'end', color: '#475569', font: { weight: 'bold', size: 11 },
                             formatter: (v) => v > 0 ? v : ''
                         },
@@ -859,11 +922,14 @@
             destroyChart('yoyTrend'); destroyChart('yoyBudgetActual');
             const term = STATE.searchTerm.toLowerCase().trim();
             const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
+            const glTerm = STATE.searchGL.toLowerCase().trim();
+
             const yoyTx = STATE.transactions.filter(tx => {
                 const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept);
                 const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
                 const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
-                return matchDept && matchSearch && matchLine;
+                const matchGL = !glTerm || (tx.glCode || '').toLowerCase().includes(glTerm);
+                return matchDept && matchSearch && matchLine && matchGL;
             });
 
             // 1. Annual Budget vs Actual
@@ -1007,12 +1073,16 @@
 
         // Table Render (Simplified logic calling for space)
         function renderTables(transactions, activeSummary) {
+            const txCountEl = document.getElementById('tx-count');
+            if (txCountEl) txCountEl.innerText = `พบ ${transactions.length} รายการ`;
+
             const txBody = document.getElementById('tx-table-body');
-            document.getElementById('tx-count').innerText = `พบ ${transactions.length} รายการ`;
-            txBody.innerHTML = transactions.length === 0 ? `<tr><td colspan="7" class="px-6 py-12 text-center text-slate-400 bg-white">ไม่พบรายการที่ตรงกับเงื่อนไข</td></tr>` : transactions.map(tx => `
-                <tr class="border-b border-slate-50 hover:bg-indigo-50/40 transition-colors">
-                    <td class="px-6 py-3 font-medium text-slate-800 whitespace-nowrap">${tx.year}</td><td class="px-6 py-3 font-medium text-slate-500 whitespace-nowrap">${tx.dept.split('-')[1] || tx.dept}</td><td class="px-6 py-3 font-mono text-xs text-slate-400 whitespace-nowrap">${tx.glCode}</td><td class="px-6 py-3 font-medium text-indigo-700 whitespace-nowrap">${tx.party || '-'}</td><td class="px-6 py-3 text-slate-600 text-xs leading-relaxed">${tx.headerDesc ? `<span class="font-semibold text-slate-700 block mb-1">${tx.headerDesc}</span>` : ''}${tx.lineDesc ? `<span class="text-slate-500">${tx.lineDesc}</span>` : ''}</td><td class="px-6 py-3 text-right text-slate-500 whitespace-nowrap">${tx.month}</td><td class="px-6 py-3 text-right font-bold text-emerald-600 whitespace-nowrap">${formatNum(tx.amount)}</td>
-                </tr>`).join('');
+            if (txBody) {
+                txBody.innerHTML = transactions.length === 0 ? `<tr><td colspan="7" class="px-6 py-12 text-center text-slate-400 bg-white">ไม่พบรายการที่ตรงกับเงื่อนไข</td></tr>` : transactions.map(tx => `
+                    <tr class="border-b border-slate-50 hover:bg-indigo-50/40 transition-colors">
+                        <td class="px-6 py-3 font-medium text-slate-800 whitespace-nowrap">${tx.year}</td><td class="px-6 py-3 font-medium text-slate-500 whitespace-nowrap">${tx.dept.split('-')[1] || tx.dept}</td><td class="px-6 py-3 font-mono text-xs text-slate-400 whitespace-nowrap">${tx.glCode}</td><td class="px-6 py-3 font-medium text-indigo-700 whitespace-nowrap">${tx.party || '-'}</td><td class="px-6 py-3 text-slate-600 text-xs leading-relaxed">${tx.headerDesc ? `<span class="font-semibold text-slate-700 block mb-1">${tx.headerDesc}</span>` : ''}${tx.lineDesc ? `<span class="text-slate-500">${tx.lineDesc}</span>` : ''}</td><td class="px-6 py-3 text-right text-slate-500 whitespace-nowrap">${tx.month}</td><td class="px-6 py-3 text-right font-bold text-emerald-600 whitespace-nowrap">${formatNum(tx.amount)}</td>
+                    </tr>`).join('');
+            }
 
             const catMap = {};
             activeSummary.forEach(row => {
@@ -1021,30 +1091,32 @@
                 catMap[key].actual += row.activeActual; catMap[key].budget += row.budget; catMap[key].depts.push(row);
             });
             const sortedCats = Object.values(catMap).sort((a,b) => b.actual - a.actual);
-            document.getElementById('gl-count').innerText = `แสดง ${sortedCats.length} หมวดหมู่`;
+            
+            const glCountEl = document.getElementById('gl-count');
+            if (glCountEl) glCountEl.innerText = `แสดง ${sortedCats.length} หมวดหมู่`;
             
             const glHeaderInfo = document.getElementById('gl-actual-header');
-            if (glHeaderInfo) {
-                glHeaderInfo.innerText = STATE.selectedMonth.includes('All') ? '' : '(Filtered)';
-            }
+            if (glHeaderInfo) glHeaderInfo.innerText = STATE.selectedMonth.includes('All') ? '' : '(Filtered)';
 
             const glBody = document.getElementById('gl-table-body');
-            if (sortedCats.length === 0) glBody.innerHTML = `<tr><td colspan="4" class="px-6 py-12 text-center text-slate-400 bg-slate-50">ไม่พบข้อมูลในเงื่อนไขที่เลือก</td></tr>`;
-            else {
-                let html = '';
-                sortedCats.forEach(cat => {
-                    const cU = cat.budget > 0 ? (cat.actual / cat.budget) * 100 : 0;
-                    html += `<tr class="bg-indigo-50/50 border-y border-slate-200"><td class="px-6 py-3"><div class="flex items-center gap-2"><span class="text-indigo-700 font-bold">▪ ${cat.category || 'Unknown'}</span><span class="text-[10px] font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">GL: ${cat.glCode}</span></div></td><td class="px-6 py-3 text-right font-bold text-indigo-700">${formatNum(cat.actual)}</td><td class="px-6 py-3 text-right font-bold text-slate-600">${formatNum(cat.budget)}</td><td class="px-6 py-3 text-center font-bold ${cU > 100 ? 'text-red-600' : cU > 80 ? 'text-amber-600' : 'text-emerald-600'}">${cU > 0 ? cU.toFixed(0) + '%' : '-'}</td></tr>`;
-                    cat.depts.sort((a,b) => b.activeActual - a.activeActual).forEach(d => {
-                        let uHtml = '';
-                        if (d.budget > 0) { const u = (d.activeActual/d.budget)*100; uHtml = `<span class="text-xs font-bold ${u > 100 ? 'text-red-500' : 'text-emerald-500'}">${u.toFixed(0)}%</span>`; }
-                        else if (d.activeActual > 0) uHtml = `<span class="text-xs font-bold text-red-500">Over Budget</span>`;
-                        else uHtml = `-`;
-                        html += `<tr class="border-b border-slate-50 hover:bg-slate-50"><td class="px-6 py-2 pl-10 font-medium text-slate-600 flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-slate-300"></i> ${d.dept.split('-')[1] || d.dept}</td><td class="px-6 py-2 text-right text-blue-600 font-medium">${formatNum(d.activeActual)}</td><td class="px-6 py-2 text-right text-slate-500">${formatNum(d.budget)}</td><td class="px-6 py-2 text-center">${uHtml}</td></tr>`;
+            if (glBody) {
+                if (sortedCats.length === 0) glBody.innerHTML = `<tr><td colspan="4" class="px-6 py-12 text-center text-slate-400 bg-slate-50">ไม่พบข้อมูลในเงื่อนไขที่เลือก</td></tr>`;
+                else {
+                    let html = '';
+                    sortedCats.forEach(cat => {
+                        const cU = cat.budget > 0 ? (cat.actual / cat.budget) * 100 : 0;
+                        html += `<tr class="bg-indigo-50/50 border-y border-slate-200"><td class="px-6 py-3"><div class="flex items-center gap-2"><span class="text-indigo-700 font-bold">▪ ${cat.category || 'Unknown'}</span><span class="text-[10px] font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">GL: ${cat.glCode}</span></div></td><td class="px-6 py-3 text-right font-bold text-indigo-700">${formatNum(cat.actual)}</td><td class="px-6 py-3 text-right font-bold text-slate-600">${formatNum(cat.budget)}</td><td class="px-6 py-3 text-center font-bold ${cU > 100 ? 'text-red-600' : cU > 80 ? 'text-amber-600' : 'text-emerald-600'}">${cU > 0 ? cU.toFixed(0) + '%' : '-'}</td></tr>`;
+                        cat.depts.sort((a,b) => b.activeActual - a.activeActual).forEach(d => {
+                            let uHtml = '';
+                            if (d.budget > 0) { const u = (d.activeActual/d.budget)*100; uHtml = `<span class="text-xs font-bold ${u > 100 ? 'text-red-500' : 'text-emerald-500'}">${u.toFixed(0)}%</span>`; }
+                            else if (d.activeActual > 0) uHtml = `<span class="text-xs font-bold text-red-500">Over Budget</span>`;
+                            else uHtml = `-`;
+                            html += `<tr class="border-b border-slate-50 hover:bg-slate-50"><td class="px-6 py-2 pl-10 font-medium text-slate-600 flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-slate-300"></i> ${d.dept.split('-')[1] || d.dept}</td><td class="px-6 py-2 text-right text-blue-600 font-medium">${formatNum(d.activeActual)}</td><td class="px-6 py-2 text-right text-slate-500">${formatNum(d.budget)}</td><td class="px-6 py-2 text-center">${uHtml}</td></tr>`;
+                        });
                     });
-                });
-                glBody.innerHTML = html;
-                lucide.createIcons();
+                    glBody.innerHTML = html;
+                    lucide.createIcons();
+                }
             }
         }
     </script>
