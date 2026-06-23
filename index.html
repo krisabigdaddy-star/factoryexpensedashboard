@@ -51,95 +51,126 @@
             </div>
         </div>
         
-        <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full xl:w-auto">
+        <div class="flex flex-col flex-wrap items-end gap-3 w-full xl:w-auto">
             
-            <!-- Search Main -->
-            <div class="relative w-full sm:w-auto">
-                <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
-                <input type="text" id="search-input" disabled placeholder="ค้นหาผู้เบิก, คีย์เวิร์ด..." 
-                       class="pl-10 pr-8 py-2 w-full sm:w-40 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
-                <button id="clear-search-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
-            </div>
+            <!-- Row 1: Search Inputs -->
+            <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
+                <!-- Search Main -->
+                <div class="relative w-full sm:w-auto">
+                    <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
+                    <input type="text" id="search-input" disabled placeholder="ค้นหาผู้เบิก, คีย์เวิร์ด..." 
+                           class="pl-10 pr-8 py-2 w-full sm:w-44 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                    <button id="clear-search-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
 
-            <!-- Search Line Description -->
-            <div class="relative w-full sm:w-auto">
-                <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
-                <input type="text" id="search-line-input" disabled placeholder="ค้นหา Line Desc..." 
-                       class="pl-10 pr-8 py-2 w-full sm:w-40 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
-                <button id="clear-line-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
-            </div>
+                <!-- Search Line Description -->
+                <div class="relative w-full sm:w-auto">
+                    <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
+                    <input type="text" id="search-line-input" disabled placeholder="ค้นหา Line Desc..." 
+                           class="pl-10 pr-8 py-2 w-full sm:w-44 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                    <button id="clear-line-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
+                </div>
 
-            <!-- Search GL Code -->
-            <div class="relative w-full sm:w-auto">
-                <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
-                <input type="text" id="search-gl-input" disabled placeholder="ค้นหารหัส GL..." 
-                       class="pl-10 pr-8 py-2 w-full sm:w-32 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
-                <button id="clear-gl-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
-                    <i data-lucide="x" class="w-4 h-4"></i>
-                </button>
-            </div>
-
-            <!-- Multi-Select Year -->
-            <div class="relative w-full sm:w-auto">
-                <button id="year-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4 text-slate-500"></i> <span id="year-text" class="truncate">รวมทุกปี</span></div>
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
-                </button>
-                <div id="year-panel" class="hidden absolute z-50 mt-1 w-full sm:w-40 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
-                    <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
-                        <input type="checkbox" value="All" class="year-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
-                        <span class="ml-2 text-sm text-slate-700 font-bold">รวมทุกปี</span>
-                    </label>
-                    <div id="year-list-container">
-                        <!-- Populated by JS -->
-                    </div>
+                <!-- Search GL Code -->
+                <div class="relative w-full sm:w-auto">
+                    <i data-lucide="search" class="absolute left-3 top-2.5 text-slate-400 w-4 h-4"></i>
+                    <input type="text" id="search-gl-input" disabled placeholder="ค้นหารหัส GL..." 
+                           class="pl-10 pr-8 py-2 w-full sm:w-32 bg-slate-50 border border-slate-300 text-slate-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 disabled:opacity-50 transition-all outline-none">
+                    <button id="clear-gl-btn" class="absolute right-2 top-2.5 text-slate-400 hover:text-red-500 hidden cursor-pointer transition-colors">
+                        <i data-lucide="x" class="w-4 h-4"></i>
+                    </button>
                 </div>
             </div>
 
-            <!-- Multi-Select Dept -->
-            <div class="relative w-full sm:w-auto">
-                <button id="dept-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-center gap-2"><i data-lucide="building" class="w-4 h-4 text-slate-500"></i> <span id="dept-text" class="truncate">ทุกแผนก</span></div>
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
-                </button>
-                <div id="dept-panel" class="hidden absolute z-50 mt-1 w-full sm:w-48 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
-                    <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
-                        <input type="checkbox" value="All" class="dept-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
-                        <span class="ml-2 text-sm text-slate-700 font-bold">ทุกแผนก</span>
-                    </label>
-                    <div id="dept-list-container">
-                        <!-- Populated by JS -->
+            <!-- Row 2: Multi-Select Filters & Upload -->
+            <div class="flex flex-col sm:flex-row flex-wrap items-center gap-3 w-full sm:w-auto justify-end">
+                
+                <!-- Multi-Select Acc Seg -->
+                <div class="relative w-full sm:w-auto">
+                    <button id="acc-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-44 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                        <div class="flex items-center gap-2"><i data-lucide="tag" class="w-4 h-4 text-slate-500"></i> <span id="acc-text" class="truncate max-w-[120px]">ทุก Acc Seg</span></div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+                    <div id="acc-panel" class="hidden absolute z-50 mt-1 w-full sm:w-80 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
+                        <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
+                            <input type="checkbox" value="All" class="acc-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
+                            <span class="ml-2 text-sm text-slate-700 font-bold">ทุก Acc Seg</span>
+                        </label>
+                        <div id="acc-list-container"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Multi-Select Month -->
-            <div class="relative w-full sm:w-auto">
-                <button id="month-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
-                    <div class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i> <span id="month-text" class="truncate">รวมทั้งปี</span></div>
-                    <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
-                </button>
-                <div id="month-panel" class="hidden absolute right-0 z-50 mt-1 w-full sm:w-40 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
-                    <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
-                        <input type="checkbox" value="All" class="month-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
-                        <span class="ml-2 text-sm text-slate-700 font-bold">รวมทั้งปี</span>
-                    </label>
-                    <div id="month-list-container">
-                        <!-- Populated by JS -->
+                <!-- Multi-Select Sub Acc Seg -->
+                <div class="relative w-full sm:w-auto">
+                    <button id="subacc-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-44 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                        <div class="flex items-center gap-2"><i data-lucide="tags" class="w-4 h-4 text-slate-500"></i> <span id="subacc-text" class="truncate max-w-[120px]">ทุก Sub Seg</span></div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+                    <div id="subacc-panel" class="hidden absolute z-50 mt-1 w-full sm:w-80 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
+                        <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
+                            <input type="checkbox" value="All" class="subacc-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
+                            <span class="ml-2 text-sm text-slate-700 font-bold">ทุก Sub Seg</span>
+                        </label>
+                        <div id="subacc-list-container"></div>
                     </div>
                 </div>
-            </div>
 
-            <!-- Upload Button -->
-            <button onclick="document.getElementById('file-upload').click()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm w-full sm:w-auto">
-                <i data-lucide="upload" class="w-4 h-4"></i>
-                <span class="text-sm font-medium">อัปโหลดไฟล์</span>
-            </button>
-            <input type="file" id="file-upload" accept=".xlsx, .xls" class="hidden">
+                <!-- Multi-Select Dept -->
+                <div class="relative w-full sm:w-auto">
+                    <button id="dept-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                        <div class="flex items-center gap-2"><i data-lucide="building" class="w-4 h-4 text-slate-500"></i> <span id="dept-text" class="truncate">ทุกแผนก</span></div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+                    <div id="dept-panel" class="hidden absolute z-50 mt-1 w-full sm:w-48 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
+                        <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
+                            <input type="checkbox" value="All" class="dept-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
+                            <span class="ml-2 text-sm text-slate-700 font-bold">ทุกแผนก</span>
+                        </label>
+                        <div id="dept-list-container"></div>
+                    </div>
+                </div>
+
+                <!-- Multi-Select Month -->
+                <div class="relative w-full sm:w-auto">
+                    <button id="month-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                        <div class="flex items-center gap-2"><i data-lucide="calendar" class="w-4 h-4 text-slate-500"></i> <span id="month-text" class="truncate">รวมทั้งปี</span></div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+                    <div id="month-panel" class="hidden absolute right-0 z-50 mt-1 w-full sm:w-40 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
+                        <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
+                            <input type="checkbox" value="All" class="month-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
+                            <span class="ml-2 text-sm text-slate-700 font-bold">รวมทั้งปี</span>
+                        </label>
+                        <div id="month-list-container"></div>
+                    </div>
+                </div>
+
+                <!-- Multi-Select Year -->
+                <div class="relative w-full sm:w-auto">
+                    <button id="year-btn" disabled class="bg-white border border-slate-300 text-slate-900 text-sm rounded-md p-2 flex items-center justify-between w-full sm:w-32 disabled:opacity-50 hover:bg-slate-50 transition-colors">
+                        <div class="flex items-center gap-2"><i data-lucide="calendar-clock" class="w-4 h-4 text-slate-500"></i> <span id="year-text" class="truncate">รวมทุกปี</span></div>
+                        <i data-lucide="chevron-down" class="w-4 h-4 text-slate-400"></i>
+                    </button>
+                    <div id="year-panel" class="hidden absolute right-0 z-50 mt-1 w-full sm:w-40 bg-white border border-slate-200 rounded-lg shadow-xl max-h-60 overflow-y-auto py-1">
+                        <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer border-b border-slate-100">
+                            <input type="checkbox" value="All" class="year-cb form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300" checked>
+                            <span class="ml-2 text-sm text-slate-700 font-bold">รวมทุกปี</span>
+                        </label>
+                        <div id="year-list-container"></div>
+                    </div>
+                </div>
+
+                <!-- Upload Button -->
+                <button onclick="document.getElementById('file-upload').click()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center justify-center gap-2 cursor-pointer transition-colors shadow-sm w-full sm:w-auto">
+                    <i data-lucide="upload" class="w-4 h-4"></i>
+                    <span class="text-sm font-medium">อัปโหลดไฟล์</span>
+                </button>
+                <input type="file" id="file-upload" accept=".xlsx, .xls" class="hidden">
+            </div>
         </div>
     </div>
 
@@ -308,17 +339,17 @@
             </div>
         </div>
 
-        <!-- GL Code Summary Table (Grouped Style) -->
+        <!-- GL Code Summary Table (Hierarchical 3-Level Grouped Style) -->
         <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden mb-8">
             <div class="p-5 border-b border-slate-200 bg-slate-50 flex justify-between items-center">
-                <h3 class="text-lg font-bold text-slate-800">ตารางสรุปงบประมาณรายหมวด (GL Summary Grouped)</h3>
+                <h3 class="text-lg font-bold text-slate-800">ตารางสรุปงบประมาณรายหมวด (GL Summary Hierarchy)</h3>
                 <span id="gl-count" class="text-xs font-medium text-slate-500 bg-white px-3 py-1 rounded-full border border-slate-200">แสดง 0 หมวดหมู่</span>
             </div>
             <div class="overflow-x-auto max-h-[600px] overflow-y-auto custom-scrollbar">
                 <table class="w-full text-left text-sm text-slate-600 relative">
                     <thead class="bg-slate-100 text-slate-500 uppercase text-xs border-b border-slate-200 sticky top-0 shadow-sm z-10">
                         <tr>
-                            <th class="px-6 py-4 font-bold bg-slate-100">รายการค่าใช้จ่าย / แผนก</th>
+                            <th class="px-6 py-4 font-bold bg-slate-100">รายการ / Acc. Seg / Sub Seg / แผนก</th>
                             <th class="px-6 py-4 font-bold text-right bg-slate-100 w-32">Actual <span id="gl-actual-header"></span></th>
                             <th class="px-6 py-4 font-bold text-right bg-slate-100 w-32">Budget (Year)</th>
                             <th class="px-6 py-4 font-bold text-center bg-slate-100 w-32">Usage %</th>
@@ -372,9 +403,13 @@
             availableYears: [], 
             availableDepts: ['V330-VCP', 'V331-VCP/P', 'V332-VCP/Q', 'V334-VCP/W', 'V335-VCP/E'],
             availableMonths: ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'],
+            availableAccSegs: [],
+            availableSubAccSegs: [],
             selectedYear: ['All'],   
             selectedDept: ['All'],   
-            selectedMonth: ['All'],  
+            selectedMonth: ['All'],
+            selectedAccSeg: ['All'],
+            selectedSubAccSeg: ['All'],  
             searchTerm: '',
             searchLineDesc: '',
             searchGL: '',            
@@ -424,7 +459,7 @@
         const toggleView = () => {
             document.getElementById('empty-state').classList.toggle('hidden-view', STATE.isUploaded);
             document.getElementById('dashboard-view').classList.toggle('hidden-view', !STATE.isUploaded);
-            const inputs = ['year-btn', 'search-input', 'search-line-input', 'search-gl-input', 'dept-btn', 'month-btn'];
+            const inputs = ['year-btn', 'search-input', 'search-line-input', 'search-gl-input', 'dept-btn', 'month-btn', 'acc-btn', 'subacc-btn'];
             inputs.forEach(id => {
                 const el = document.getElementById(id);
                 if (el) el.disabled = !STATE.isUploaded;
@@ -438,28 +473,35 @@
         };
 
         document.addEventListener('click', (e) => {
-            const pYear = document.getElementById('year-panel');
-            const pDept = document.getElementById('dept-panel');
-            const pMonth = document.getElementById('month-panel');
+            const panels = ['year-panel', 'dept-panel', 'month-panel', 'acc-panel', 'subacc-panel'];
+            const btns = ['year-btn', 'dept-btn', 'month-btn', 'acc-btn', 'subacc-btn'];
             
-            if(pYear && !document.getElementById('year-btn').contains(e.target) && !pYear.contains(e.target)) pYear.classList.add('hidden');
-            if(pDept && !document.getElementById('dept-btn').contains(e.target) && !pDept.contains(e.target)) pDept.classList.add('hidden');
-            if(pMonth && !document.getElementById('month-btn').contains(e.target) && !pMonth.contains(e.target)) pMonth.classList.add('hidden');
+            panels.forEach((pId, idx) => {
+                const p = document.getElementById(pId);
+                const b = document.getElementById(btns[idx]);
+                if (p && b && !b.contains(e.target) && !p.contains(e.target)) p.classList.add('hidden');
+            });
         });
 
         document.getElementById('year-btn').addEventListener('click', () => toggleDropdown('year-btn', 'year-panel'));
         document.getElementById('dept-btn').addEventListener('click', () => toggleDropdown('dept-btn', 'dept-panel'));
         document.getElementById('month-btn').addEventListener('click', () => toggleDropdown('month-btn', 'month-panel'));
+        document.getElementById('acc-btn').addEventListener('click', () => toggleDropdown('acc-btn', 'acc-panel'));
+        document.getElementById('subacc-btn').addEventListener('click', () => toggleDropdown('subacc-btn', 'subacc-panel'));
 
         const initMultiSelect = (containerId, items, cbClass, stateKey, textId, defaultText) => {
             const container = document.getElementById(containerId);
             if(!container) return;
-            container.innerHTML = items.map(item => `
+            container.innerHTML = items.map(item => {
+                const val = typeof item === 'object' ? item.val : item;
+                const label = typeof item === 'object' ? item.label : item;
+                return `
                 <label class="flex items-center px-4 py-2 hover:bg-slate-50 cursor-pointer">
-                    <input type="checkbox" value="${item}" class="${cbClass} form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300">
-                    <span class="ml-2 text-sm text-slate-700">${item}</span>
+                    <input type="checkbox" value="${val}" class="${cbClass} form-checkbox h-4 w-4 text-blue-600 rounded border-slate-300">
+                    <span class="ml-2 text-sm text-slate-700">${label}</span>
                 </label>
-            `).join('');
+                `;
+            }).join('');
 
             document.querySelectorAll(`.${cbClass}`).forEach(cb => {
                 cb.addEventListener('change', (e) => {
@@ -481,7 +523,12 @@
 
                     let btnText = defaultText;
                     if (!selected.includes('All')) {
-                        btnText = selected.length === 1 ? selected[0] : `${selected.length} รายการ`;
+                        if (selected.length === 1) {
+                            const selectedItem = items.find(i => (typeof i === 'object' ? i.val : i) === selected[0]);
+                            btnText = selectedItem ? (typeof selectedItem === 'object' ? selectedItem.label : selectedItem) : selected[0];
+                        } else {
+                            btnText = `${selected.length} รายการ`;
+                        }
                     }
                     const textEl = document.getElementById(textId);
                     if(textEl) textEl.innerText = btnText;
@@ -498,11 +545,23 @@
             for (let i = 1; i < accLines.length; i++) {
                 const row = accLines[i];
                 if (!row || row.length < 4) continue;
+                
+                const accStr = String(row[0] || '').trim().padStart(4, '0');
+                const subStr = String(row[1] || '').trim().padStart(3, '0');
                 const glCode = extractGLCode(row[0], row[1]);
                 if (!glCode) continue;
-                let desc = String(row[2] || '').trim().split(':')[0].trim(); 
+
+                let fullDesc = String(row[2] || '');
+                let parts = fullDesc.split(':');
+                let mainDesc = parts[0] ? parts[0].trim() : '';
+                let subDesc = parts[1] ? parts[1].trim() : '';
+
                 map[glCode] = {
-                    desc,
+                    accSeg: accStr,
+                    subAccSeg: subStr,
+                    mainDesc,
+                    subDesc,
+                    desc: mainDesc, // Fallback for charts
                     budgets: {
                         'V330-VCP': parseNumber(row[4]), 'V331-VCP/P': parseNumber(row[5]),
                         'V332-VCP/Q': parseNumber(row[6]), 'V334-VCP/W': parseNumber(row[7]), 'V335-VCP/E': parseNumber(row[8])
@@ -560,8 +619,12 @@
                 const glCode = extractGLCode(row[cAcc], row[cSub]);
                 if (!glCode) continue;
 
+                const accStr = String(row[cAcc] || '').trim().padStart(4, '0');
+                const subStr = String(row[cSub] || '').trim().padStart(3, '0');
+
                 txs.push({
                     id: `tx-${year}-${i}`, year: year, dept: deptCode, month: monthStr, glCode: glCode,
+                    accSeg: accStr, subAccSeg: subStr,
                     party: String(row[cPty] || '').trim(), headerDesc: String(row[cHdr] || '').trim(),
                     lineDesc: String(row[cLin] || '').trim(), amount: parseNumber(row[cDeb])
                 });
@@ -622,9 +685,32 @@
                     const foundMonths = new Set(STATE.transactions.map(t => t.month));
                     const sortedMonths = STATE.availableMonths.filter(m => foundMonths.has(m));
                     
+                    // ดึง Description ของ Acc Seg และ Sub Seg มาเตรียมแสดงใน Filter
+                    const accMapForLabel = {};
+                    const subMapForLabel = {};
+                    STATE.transactions.forEach(t => {
+                        let mDesc = t.headerDesc || 'ไม่มีชื่อ';
+                        let sDesc = '';
+                        const m26 = STATE.masterMap['2026']?.[t.glCode];
+                        const m25 = STATE.masterMap['2025']?.[t.glCode];
+                        if (m26) { mDesc = m26.mainDesc; sDesc = m26.subDesc; }
+                        else if (m25) { mDesc = m25.mainDesc; sDesc = m25.subDesc; }
+                        
+                        if (!accMapForLabel[t.accSeg]) accMapForLabel[t.accSeg] = mDesc;
+                        if (!subMapForLabel[t.subAccSeg]) subMapForLabel[t.subAccSeg] = sDesc;
+                    });
+
+                    const foundAccs = new Set(STATE.transactions.map(t => t.accSeg));
+                    STATE.availableAccSegs = Array.from(foundAccs).sort().map(acc => ({ val: acc, label: `${acc} - ${accMapForLabel[acc] || 'ไม่มีชื่อ'}` }));
+
+                    const foundSubs = new Set(STATE.transactions.map(t => t.subAccSeg));
+                    STATE.availableSubAccSegs = Array.from(foundSubs).sort().map(sub => ({ val: sub, label: `${sub} - ${subMapForLabel[sub] || 'ไม่มีชื่อ'}` }));
+
                     initMultiSelect('year-list-container', STATE.availableYears, 'year-cb', 'selectedYear', 'year-text', 'รวมทุกปี');
                     initMultiSelect('dept-list-container', STATE.availableDepts, 'dept-cb', 'selectedDept', 'dept-text', 'ทุกแผนก');
                     initMultiSelect('month-list-container', sortedMonths, 'month-cb', 'selectedMonth', 'month-text', 'รวมทั้งปี');
+                    initMultiSelect('acc-list-container', STATE.availableAccSegs, 'acc-cb', 'selectedAccSeg', 'acc-text', 'ทุก Acc Seg');
+                    initMultiSelect('subacc-list-container', STATE.availableSubAccSegs, 'subacc-cb', 'selectedSubAccSeg', 'subacc-text', 'ทุก Sub Seg');
 
                     STATE.isUploaded = true;
                     setStatus(true, `สำเร็จ! พบ Expense ${STATE.transactions.length} รายการ | ยอดผลิต ${STATE.productionData.length} เดือน`);
@@ -674,14 +760,18 @@
 
             const currentYearTx = STATE.transactions.filter(tx => STATE.selectedYear.includes('All') || STATE.selectedYear.includes(tx.year));
 
-            const filteredTx = currentYearTx.filter(tx => {
-                const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept);
-                const matchMonth = STATE.selectedMonth.includes('All') || STATE.selectedMonth.includes(tx.month);
-                const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
-                const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
-                const matchGL = !glTerm || (tx.glCode || '').toLowerCase().includes(glTerm);
-                return matchDept && matchMonth && matchSearch && matchLine && matchGL;
-            });
+            const matchFilters = (dept, acc, sub, glCode, party, hDesc, lDesc, month) => {
+                const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(dept);
+                const matchMonth = !month || STATE.selectedMonth.includes('All') || STATE.selectedMonth.includes(month);
+                const matchAcc = STATE.selectedAccSeg.includes('All') || STATE.selectedAccSeg.includes(acc);
+                const matchSub = STATE.selectedSubAccSeg.includes('All') || STATE.selectedSubAccSeg.includes(sub);
+                const matchSearch = !term || (party || '').toLowerCase().includes(term) || (hDesc || '').toLowerCase().includes(term);
+                const matchLine = !lineTerm || (lDesc || '').toLowerCase().includes(lineTerm);
+                const matchGL = !glTerm || (glCode || '').toLowerCase().includes(glTerm);
+                return matchDept && matchAcc && matchSub && matchMonth && matchSearch && matchLine && matchGL;
+            };
+
+            const filteredTx = currentYearTx.filter(tx => matchFilters(tx.dept, tx.accSeg, tx.subAccSeg, tx.glCode, tx.party, tx.headerDesc, tx.lineDesc, tx.month));
 
             const sumMap = {};
             const addBudgetToSum = (bMap) => {
@@ -689,9 +779,15 @@
                 Object.keys(bMap).forEach(glCode => {
                     const info = bMap[glCode];
                     Object.keys(info.budgets).forEach(dept => {
-                        if (STATE.selectedDept.includes('All') || STATE.selectedDept.includes(dept)) {
+                        if (matchFilters(dept, info.accSeg, info.subAccSeg, glCode, null, info.mainDesc, info.subDesc, null)) {
                             const key = `${glCode}_${dept}`;
-                            if (!sumMap[key]) sumMap[key] = { id: key, dept, glCode, category: info.desc, budget: 0, actualTotal: 0, transactions: [] };
+                            if (!sumMap[key]) {
+                                sumMap[key] = { 
+                                    id: key, dept, glCode, accSeg: info.accSeg, subAccSeg: info.subAccSeg,
+                                    mainDesc: info.mainDesc, subDesc: info.subDesc, category: info.desc, 
+                                    budget: 0, actualTotal: 0, transactions: [] 
+                                };
+                            }
                             sumMap[key].budget += info.budgets[dept];
                         }
                     });
@@ -702,13 +798,21 @@
             if (STATE.selectedYear.includes('All') || STATE.selectedYear.includes('2026')) addBudgetToSum(STATE.masterMap['2026']);
 
             currentYearTx.forEach(tx => {
-                if(STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept)) {
+                if(matchFilters(tx.dept, tx.accSeg, tx.subAccSeg, tx.glCode, null, null, null, null)) {
                     const key = `${tx.glCode}_${tx.dept}`;
                     if (!sumMap[key]) {
-                        let desc = tx.headerDesc;
-                        if (STATE.masterMap['2026'] && STATE.masterMap['2026'][tx.glCode]) desc = STATE.masterMap['2026'][tx.glCode].desc;
-                        else if (STATE.masterMap['2025'] && STATE.masterMap['2025'][tx.glCode]) desc = STATE.masterMap['2025'][tx.glCode].desc;
-                        sumMap[key] = { id: key, dept: tx.dept, glCode: tx.glCode, category: desc || 'Unknown', budget: 0, actualTotal: 0, transactions: [] };
+                        let mDesc = tx.headerDesc || 'Unknown';
+                        let sDesc = '';
+                        const m26 = STATE.masterMap['2026']?.[tx.glCode];
+                        const m25 = STATE.masterMap['2025']?.[tx.glCode];
+                        if (m26) { mDesc = m26.mainDesc; sDesc = m26.subDesc; }
+                        else if (m25) { mDesc = m25.mainDesc; sDesc = m25.subDesc; }
+                        
+                        sumMap[key] = { 
+                            id: key, dept: tx.dept, glCode: tx.glCode, accSeg: tx.accSeg, subAccSeg: tx.subAccSeg,
+                            mainDesc: mDesc, subDesc: sDesc, category: mDesc,
+                            budget: 0, actualTotal: 0, transactions: [] 
+                        };
                     }
                     sumMap[key].actualTotal += tx.amount;
                     sumMap[key].transactions.push(tx);
@@ -729,7 +833,7 @@
             const yearBadge = document.getElementById('kpi-year-badge');
             if (yearBadge) yearBadge.innerText = STATE.selectedYear.includes('All') ? 'รวมทุกปี' : `ปี ${STATE.selectedYear.join(', ')}`;
 
-            renderKPIs(activeSummary, term !== '' || lineTerm !== '' || glTerm !== '');
+            renderKPIs(activeSummary, term !== '' || lineTerm !== '' || glTerm !== '' || !STATE.selectedAccSeg.includes('All') || !STATE.selectedSubAccSeg.includes('All'));
             renderTables(filteredTx, activeSummary);
             renderYoYCharts();
             renderYoYCpuTrendChart();
@@ -801,13 +905,17 @@
             const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
             const glTerm = STATE.searchGL.toLowerCase().trim();
 
-            const yoyTx = STATE.transactions.filter(tx => {
-                const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept);
-                const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
-                const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
-                const matchGL = !glTerm || (tx.glCode || '').toLowerCase().includes(glTerm);
-                return matchDept && matchSearch && matchLine && matchGL;
-            });
+            const matchFilters = (dept, acc, sub, glCode, party, hDesc, lDesc) => {
+                const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(dept);
+                const matchAcc = STATE.selectedAccSeg.includes('All') || STATE.selectedAccSeg.includes(acc);
+                const matchSub = STATE.selectedSubAccSeg.includes('All') || STATE.selectedSubAccSeg.includes(sub);
+                const matchSearch = !term || (party || '').toLowerCase().includes(term) || (hDesc || '').toLowerCase().includes(term);
+                const matchLine = !lineTerm || (lDesc || '').toLowerCase().includes(lineTerm);
+                const matchGL = !glTerm || (glCode || '').toLowerCase().includes(glTerm);
+                return matchDept && matchAcc && matchSub && matchSearch && matchLine && matchGL;
+            };
+
+            const yoyTx = STATE.transactions.filter(tx => matchFilters(tx.dept, tx.accSeg, tx.subAccSeg, tx.glCode, tx.party, tx.headerDesc, tx.lineDesc));
 
             // Aggregate Actuals and QTY by Year/Month
             const monthOrder = { 'JAN':1, 'FEB':2, 'MAR':3, 'APR':4, 'MAY':5, 'JUN':6, 'JUL':7, 'AUG':8, 'SEP':9, 'OCT':10, 'NOV':11, 'DEC':12 };
@@ -924,13 +1032,17 @@
             const lineTerm = STATE.searchLineDesc.toLowerCase().trim();
             const glTerm = STATE.searchGL.toLowerCase().trim();
 
-            const yoyTx = STATE.transactions.filter(tx => {
-                const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(tx.dept);
-                const matchSearch = !term || (tx.party || '').toLowerCase().includes(term) || (tx.headerDesc || '').toLowerCase().includes(term);
-                const matchLine = !lineTerm || (tx.lineDesc || '').toLowerCase().includes(lineTerm);
-                const matchGL = !glTerm || (tx.glCode || '').toLowerCase().includes(glTerm);
-                return matchDept && matchSearch && matchLine && matchGL;
-            });
+            const matchFilters = (dept, acc, sub, glCode, party, hDesc, lDesc) => {
+                const matchDept = STATE.selectedDept.includes('All') || STATE.selectedDept.includes(dept);
+                const matchAcc = STATE.selectedAccSeg.includes('All') || STATE.selectedAccSeg.includes(acc);
+                const matchSub = STATE.selectedSubAccSeg.includes('All') || STATE.selectedSubAccSeg.includes(sub);
+                const matchSearch = !term || (party || '').toLowerCase().includes(term) || (hDesc || '').toLowerCase().includes(term);
+                const matchLine = !lineTerm || (lDesc || '').toLowerCase().includes(lineTerm);
+                const matchGL = !glTerm || (glCode || '').toLowerCase().includes(glTerm);
+                return matchDept && matchAcc && matchSub && matchSearch && matchLine && matchGL;
+            };
+
+            const yoyTx = STATE.transactions.filter(tx => matchFilters(tx.dept, tx.accSeg, tx.subAccSeg, tx.glCode, tx.party, tx.headerDesc, tx.lineDesc));
 
             // 1. Annual Budget vs Actual
             const calcBudget = (yearMap) => {
@@ -938,7 +1050,7 @@
                 if (!yearMap) return 0;
                 Object.values(yearMap).forEach(info => {
                     Object.keys(info.budgets).forEach(dept => {
-                        if (STATE.selectedDept.includes('All') || STATE.selectedDept.includes(dept)) total += info.budgets[dept];
+                        if (matchFilters(dept, info.accSeg, info.subAccSeg, info.glCode, null, info.mainDesc, info.subDesc)) total += info.budgets[dept];
                     });
                 });
                 return total;
@@ -1071,7 +1183,6 @@
             }
         }
 
-        // Table Render (Simplified logic calling for space)
         function renderTables(transactions, activeSummary) {
             const txCountEl = document.getElementById('tx-count');
             if (txCountEl) txCountEl.innerText = `พบ ${transactions.length} รายการ`;
@@ -1084,34 +1195,97 @@
                     </tr>`).join('');
             }
 
-            const catMap = {};
+            // Nested Grouping: Acc Seg -> Sub Acc Seg -> Dept
+            const accMap = {};
             activeSummary.forEach(row => {
-                const key = `${row.glCode}_${row.category}`;
-                if (!catMap[key]) catMap[key] = { glCode: row.glCode, category: row.category, actual: 0, budget: 0, depts: [] };
-                catMap[key].actual += row.activeActual; catMap[key].budget += row.budget; catMap[key].depts.push(row);
+                const acc = row.accSeg;
+                const sub = row.subAccSeg;
+                if (!accMap[acc]) accMap[acc] = { accSeg: acc, mainDesc: row.mainDesc, actual: 0, budget: 0, subs: {} };
+                accMap[acc].actual += row.activeActual;
+                accMap[acc].budget += row.budget;
+
+                if (!accMap[acc].subs[sub]) accMap[acc].subs[sub] = { subAccSeg: sub, subDesc: row.subDesc, actual: 0, budget: 0, depts: [] };
+                accMap[acc].subs[sub].actual += row.activeActual;
+                accMap[acc].subs[sub].budget += row.budget;
+                accMap[acc].subs[sub].depts.push(row);
             });
-            const sortedCats = Object.values(catMap).sort((a,b) => b.actual - a.actual);
+
+            // เรียงลำดับจากน้อยไปมากตามรหัส Acc Segment
+            const sortedAccs = Object.values(accMap).sort((a,b) => String(a.accSeg).localeCompare(String(b.accSeg)));
             
+            // Calculate total unique categories (sub-segments) for display
+            let totalSubCategories = 0;
+            sortedAccs.forEach(a => totalSubCategories += Object.keys(a.subs).length);
+
             const glCountEl = document.getElementById('gl-count');
-            if (glCountEl) glCountEl.innerText = `แสดง ${sortedCats.length} หมวดหมู่`;
+            if (glCountEl) glCountEl.innerText = `แสดง ${totalSubCategories} หมวดหมู่ย่อย`;
             
             const glHeaderInfo = document.getElementById('gl-actual-header');
             if (glHeaderInfo) glHeaderInfo.innerText = STATE.selectedMonth.includes('All') ? '' : '(Filtered)';
 
             const glBody = document.getElementById('gl-table-body');
             if (glBody) {
-                if (sortedCats.length === 0) glBody.innerHTML = `<tr><td colspan="4" class="px-6 py-12 text-center text-slate-400 bg-slate-50">ไม่พบข้อมูลในเงื่อนไขที่เลือก</td></tr>`;
+                if (sortedAccs.length === 0) glBody.innerHTML = `<tr><td colspan="4" class="px-6 py-12 text-center text-slate-400 bg-slate-50">ไม่พบข้อมูลในเงื่อนไขที่เลือก</td></tr>`;
                 else {
                     let html = '';
-                    sortedCats.forEach(cat => {
-                        const cU = cat.budget > 0 ? (cat.actual / cat.budget) * 100 : 0;
-                        html += `<tr class="bg-indigo-50/50 border-y border-slate-200"><td class="px-6 py-3"><div class="flex items-center gap-2"><span class="text-indigo-700 font-bold">▪ ${cat.category || 'Unknown'}</span><span class="text-[10px] font-mono text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">GL: ${cat.glCode}</span></div></td><td class="px-6 py-3 text-right font-bold text-indigo-700">${formatNum(cat.actual)}</td><td class="px-6 py-3 text-right font-bold text-slate-600">${formatNum(cat.budget)}</td><td class="px-6 py-3 text-center font-bold ${cU > 100 ? 'text-red-600' : cU > 80 ? 'text-amber-600' : 'text-emerald-600'}">${cU > 0 ? cU.toFixed(0) + '%' : '-'}</td></tr>`;
-                        cat.depts.sort((a,b) => b.activeActual - a.activeActual).forEach(d => {
-                            let uHtml = '';
-                            if (d.budget > 0) { const u = (d.activeActual/d.budget)*100; uHtml = `<span class="text-xs font-bold ${u > 100 ? 'text-red-500' : 'text-emerald-500'}">${u.toFixed(0)}%</span>`; }
-                            else if (d.activeActual > 0) uHtml = `<span class="text-xs font-bold text-red-500">Over Budget</span>`;
-                            else uHtml = `-`;
-                            html += `<tr class="border-b border-slate-50 hover:bg-slate-50"><td class="px-6 py-2 pl-10 font-medium text-slate-600 flex items-center gap-2"><i data-lucide="corner-down-right" class="w-4 h-4 text-slate-300"></i> ${d.dept.split('-')[1] || d.dept}</td><td class="px-6 py-2 text-right text-blue-600 font-medium">${formatNum(d.activeActual)}</td><td class="px-6 py-2 text-right text-slate-500">${formatNum(d.budget)}</td><td class="px-6 py-2 text-center">${uHtml}</td></tr>`;
+                    sortedAccs.forEach(accGroup => {
+                        const accUsage = accGroup.budget > 0 ? (accGroup.actual / accGroup.budget) * 100 : 0;
+                        
+                        // Level 1: Acc Seg Row
+                        html += `<tr class="bg-blue-100/50 border-y border-blue-200">
+                            <td class="px-6 py-3">
+                                <div class="flex items-center gap-2">
+                                    <span class="text-blue-800 font-bold text-sm">▶ Acc Segment: ${accGroup.accSeg} - ${accGroup.mainDesc}</span>
+                                </div>
+                            </td>
+                            <td class="px-6 py-3 text-right font-bold text-blue-800">${formatNum(accGroup.actual)}</td>
+                            <td class="px-6 py-3 text-right font-bold text-slate-600">${formatNum(accGroup.budget)}</td>
+                            <td class="px-6 py-3 text-center font-bold ${accUsage > 100 ? 'text-red-600' : accUsage > 80 ? 'text-amber-600' : 'text-emerald-600'}">${accUsage > 0 ? accUsage.toFixed(0) + '%' : '-'}</td>
+                        </tr>`;
+
+                        // Level 2: Sub Acc Seg Row
+                        // เรียงลำดับจากน้อยไปมากตามรหัส Sub Acc Segment
+                        const sortedSubs = Object.values(accGroup.subs).sort((a,b) => String(a.subAccSeg).localeCompare(String(b.subAccSeg)));
+                        sortedSubs.forEach(subGroup => {
+                            const subUsage = subGroup.budget > 0 ? (subGroup.actual / subGroup.budget) * 100 : 0;
+                            html += `<tr class="bg-indigo-50/30 border-y border-slate-100">
+                                <td class="px-6 py-2 pl-10">
+                                    <div class="flex items-center gap-2">
+                                        <span class="text-indigo-700 font-semibold text-xs">▪ Sub Segment: ${subGroup.subAccSeg} ${subGroup.subDesc ? '- ' + subGroup.subDesc : ''}</span>
+                                    </div>
+                                </td>
+                                <td class="px-6 py-2 text-right font-semibold text-indigo-700">${formatNum(subGroup.actual)}</td>
+                                <td class="px-6 py-2 text-right font-semibold text-slate-500">${formatNum(subGroup.budget)}</td>
+                                <td class="px-6 py-2 text-center font-semibold ${subUsage > 100 ? 'text-red-600' : subUsage > 80 ? 'text-amber-600' : 'text-emerald-600'}">${subUsage > 0 ? subUsage.toFixed(0) + '%' : '-'}</td>
+                            </tr>`;
+
+                            // Level 3: Dept Row
+                            // เรียงลำดับแผนกจากน้อยไปมาก
+                            subGroup.depts.sort((a,b) => String(a.dept).localeCompare(String(b.dept))).forEach(d => {
+                                let uHtml = '';
+                                if (d.budget > 0) { 
+                                    const u = (d.activeActual/d.budget)*100; 
+                                    uHtml = `<span class="text-xs font-bold ${u > 100 ? 'text-red-500' : 'text-emerald-500'}">${u.toFixed(0)}%</span>`; 
+                                } else if (d.activeActual > 0) {
+                                    if (subGroup.budget > 0) {
+                                        const sharedUsage = (d.activeActual / subGroup.budget) * 100;
+                                        uHtml = `<span class="text-xs font-bold text-red-500">-${sharedUsage.toFixed(1)}%</span><span class="text-[9px] text-slate-400 mt-1 leading-none block font-medium">เทียบงบรวม Sub</span>`;
+                                    } else {
+                                        uHtml = `<span class="text-xs font-bold text-red-500">Over Budget</span><span class="text-[9px] text-slate-400 mt-1 leading-none block">ไม่มีงบตั้งต้น</span>`;
+                                    }
+                                } else {
+                                    uHtml = `<span class="text-xs font-bold text-slate-300">-</span>`;
+                                }
+
+                                html += `<tr class="border-b border-slate-50 hover:bg-slate-50 transition-colors">
+                                    <td class="px-6 py-2 pl-16 font-medium text-slate-600 text-xs flex items-center gap-2">
+                                        <i data-lucide="corner-down-right" class="w-4 h-4 text-slate-300"></i> ${d.dept.split('-')[1] || d.dept}
+                                    </td>
+                                    <td class="px-6 py-2 text-right text-blue-600 font-medium">${formatNum(d.activeActual)}</td>
+                                    <td class="px-6 py-2 text-right text-slate-500">${formatNum(d.budget)}</td>
+                                    <td class="px-6 py-2 flex flex-col items-center justify-center text-center">${uHtml}</td>
+                                </tr>`;
+                            });
                         });
                     });
                     glBody.innerHTML = html;
